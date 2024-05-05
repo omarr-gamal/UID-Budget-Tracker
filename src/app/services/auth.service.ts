@@ -13,7 +13,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo } f
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<User>;
+  user$: Observable<User | null | undefined>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -27,8 +27,7 @@ export class AuthService {
         } else {
           return of(null);
         }
-      }),
-      filter((user): user is User => Boolean(user))
+      })
     );
   }
 

@@ -14,11 +14,15 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <button class="btn btn-outline-primary" (click)="auth.signOut()">Sign Out</button>
+                <div *ngIf="auth.user$ | async as user; else login">
+                    <span class="me-2">{{ user.displayName }}</span>
+                    <img class="rounded-circle" src="{{ user.photoURL }}" alt="Profile Picture">
+                    <button class="btn btn-outline-danger" (click)="auth.signOut()">Logout</button>
+                </div>
+                
+                <ng-template #login>
+                    <button class="btn btn-light" (click)="auth.googleSignin()">Login</button>
+                </ng-template>
             </div>
         </div>
     </div>
