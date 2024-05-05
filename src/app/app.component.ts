@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Task } from './Task';
+
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { faPen, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
+
+import { Firestore } from '@angular/fire/firestore';
+import { AuthService } from './services/auth.service';
+
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +21,8 @@ export class AppComponent {
   faPen = faPen
   faCheck = faCheck
   faXmark = faXmark 
+
+  constructor(private firestore: Firestore, public auth: AuthService) { }
 
   tasks: Task[] = [
     { name: 'Complete project proposal', description: 'Write and submit project proposal document', dueDate: new Date('2024-04-10'), status: false },
