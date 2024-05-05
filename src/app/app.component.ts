@@ -7,7 +7,6 @@ import { faPen, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from './services/auth.service';
 
-import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
