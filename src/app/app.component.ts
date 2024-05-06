@@ -14,7 +14,7 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'TaskManager';
+  title = 'BudgetTracker';
 
   faTrashAlt = faTrashAlt
   faPen = faPen
