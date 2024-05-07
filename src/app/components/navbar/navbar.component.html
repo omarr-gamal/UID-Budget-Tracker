@@ -1,29 +1,10 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-                </li>
-            </ul>
-            <div class="d-flex">
-                <div *ngIf="auth.user$ | async as user; else login">
-                    <span class="me-2">{{ user.displayName }}</span>
-                    <img class="rounded-circle" src="{{ user.photoURL }}" alt="Profile Picture">
-                    <button class="btn btn-outline-danger" (click)="auth.signOut()">Logout</button>
-                </div>
-                
-                <ng-template #login>
-                    <button class="btn btn-light" (click)="auth.googleSignin()">Login</button>
-                </ng-template>
-            </div>
+<p-menubar [model]="items">
+    <ng-template pTemplate="start">
+        <a href="#" class="brand-logo">Budgy</a>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div *ngIf="!user;">
+            <p-button label="Login" (onClick)="auth.googleSignin()"></p-button>
         </div>
-    </div>
-</nav>
+    </ng-template>
+</p-menubar>
