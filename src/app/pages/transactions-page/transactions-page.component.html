@@ -1,1 +1,189 @@
-<p>transactions-page works!</p>
+<p-toolbar styleClass="mb-4 gap-2">
+  <ng-template pTemplate="left">
+    <p-button
+      pRipple
+      severity="success"
+      label="New"
+      icon="pi pi-plus"
+      class="mr-2"
+      (click)="openAddExpenseModal()"
+    />
+
+    <p-button
+      pRipple
+      severity="danger"
+      label="Delete"
+      icon="pi pi-trash"
+      (click)="deleteSelectedExpenses()"
+      [disabled]="selectedExpenses.length === 0"
+    />
+  </ng-template>
+</p-toolbar>
+<p-table
+  #dt
+  [value]="reversedExpenses"
+  [rows]="10"
+  [paginator]="true"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [rowHover]="true"
+  dataKey="id"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [showCurrentPageReport]="true"
+  [globalFilterFields]="[
+    'expense.name',
+    'expense..date',
+    'expense.category',
+    'expense.amount',
+    'expense.recurring'
+  ]"
+  [(selection)]="selectedExpenses"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h5 class="m-0">Manage Expenses</h5>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="filterGlobal($event)"
+          placeholder="Search..."
+        />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 4rem">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th pSortableColumn="name" style="min-width: 15rem">
+        Name <p-sortIcon field="name" />
+      </th>
+
+      <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
+      <th pSortableColumn="category" style="min-width: 10rem">
+        Category <p-sortIcon field="category" />
+      </th>
+      <th pSortableColumn="amount">Amount <p-sortIcon field="amount" /></th>
+      <th pSortableColumn="recurring">
+        Reccuring <p-sortIcon field="recurring" />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-expense>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="expense" />
+      </td>
+      <td>
+        {{ expense.name }}
+      </td>
+      <td>
+        {{ expense.date }}
+      </td>
+      <td>
+        {{ expense.category }}
+      </td>
+      <td>
+        {{ expense.amount | currency : "USD" }}
+      </td>
+
+      <td>
+        <p-chip [label]="expense.recurring ? 'Recurring' : 'One-time'"></p-chip>
+      </td>
+
+      <td>
+        <p-button
+          pRipple
+          icon="pi pi-pencil"
+          [rounded]="true"
+          [outlined]="true"
+          severity="success"
+          (click)="editExpense(expense)"
+        />
+        <p-button
+          pRipple
+          icon="pi pi-trash"
+          severity="danger"
+          [rounded]="true"
+          [outlined]="true"
+          (click)="deleteExpense(expense)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      In total there are {{ expenses ? expenses.length : 0 }} expenses.
+    </div>
+  </ng-template>
+</p-table>
+<p-dialog
+  header="Add New Expense"
+  [(visible)]="showAddExpenseModal"
+  [style]="{ width: '50vw' }"
+>
+  <form class="form-layout">
+    <div class="form-row">
+      <label class="form-label" for="expenseName">Name:</label>
+      <input
+        pInputText
+        id="expenseName"
+        [(ngModel)]="newExpense.name"
+        name="name"
+        class="form-input"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseDate">Date:</label>
+      <input
+        type="date"
+        pInputText
+        id="expenseDate"
+        [(ngModel)]="newExpense.date"
+        name="date"
+        class="form-input"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseCategory">Category:</label>
+      <p-dropdown
+        class="form-input"
+        [options]="expenseCategories"
+        [(ngModel)]="newExpense.category"
+        [checkmark]="true"
+        optionLabel="name"
+        [showClear]="true"
+        placeholder="Select a Category"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseAmount">Amount:</label>
+      <input
+        type="number"
+        pInputText
+        id="expenseAmount"
+        [(ngModel)]="newExpense.amount"
+        name="amount"
+        class="form-input"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseRecurring">Recurring:</label>
+      <p-checkbox
+        binary="true"
+        id="expenseRecurring"
+        [(ngModel)]="newExpense.recurring"
+        name="recurring"
+        class="form-input"
+      ></p-checkbox>
+    </div>
+    <div class="form-submit-cont">
+      <p-button label="Save" (click)="addExpense()"></p-button>
+      <p-button label="Cancel" (click)="showAddExpenseModal = false"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-button label="Add Expense" (click)="showAddExpenseModal = true"></p-button>

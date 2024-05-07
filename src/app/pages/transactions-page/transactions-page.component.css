@@ -1,0 +1,26 @@
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-label {
+  width: 12rem; /* Consistent width for labels */
+  font-weight: bold;
+}
+
+.form-input {
+  flex: 1; /* Take up remaining space */
+}
+.form-submit-cont {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
