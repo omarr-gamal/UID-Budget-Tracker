@@ -16,22 +16,26 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 
 //primeng components
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
+import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
+import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    DashboardComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    TransactionsPageComponent,
+    BudgetsPageComponent,
+    ReportsPageComponent
   ],
   imports: [
     BrowserModule,

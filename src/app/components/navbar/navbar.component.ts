@@ -24,13 +24,23 @@ export class NavbarComponent {
     this.items = [
       {
         label: 'Home',
-        icon: 'pi pi-fw pi-home',
+        icon: 'pi pi-home',
         routerLink: ['/home']
       },
       {
-        label: 'Dashboard',
-        icon: 'pi pi-fw pi-chart-line',
-        routerLink: ['/dashboard']
+        label: 'Transactions',
+        icon: 'pi pi-money-bill',
+        routerLink: ['/transactions']
+      },
+      {
+        label: 'Budgets',
+        icon: 'pi pi-briefcase',
+        routerLink: ['/budgets']
+      },
+      {
+        label: 'Reports',
+        icon: 'pi pi-file',
+        routerLink: ['/reports']
       }
     ];
 
@@ -40,7 +50,7 @@ export class NavbarComponent {
         items: [
           {
             label: 'Logout',
-            icon: 'pi pi-fw pi-sign-out',
+            icon: 'pi pi-sign-out',
             command: () => this.auth.signOut()
           }
         ]
