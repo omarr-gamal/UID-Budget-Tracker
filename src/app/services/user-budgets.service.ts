@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { AuthService } from './auth.service';
-import { MonthlyIncome } from '../models/monthly-income.model';
-
 import { Budget } from '../models/budget.model';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { 
-  Observable, catchError, filter, 
-  first, from, map, switchMap, take 
+  Observable, from,
+  map, switchMap, take 
 } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserBudgetsService {
 
   constructor(
     private auth: AuthService,
@@ -109,22 +107,5 @@ export class UserService {
         );
       })
     )
-  }
-
-  addMonthlyIncome(monthlyIncome: MonthlyIncome): Observable<any> {
-    return this.auth.user$.pipe(
-      take(1),
-      switchMap(user => {
-        if (!user) {
-          return new Observable<never>(observer => {
-            observer.error('User not authenticated');
-          });
-        }
-        // add a new monthly income document
-        const userId = user.uid;
-        const incomes = this.afs.collection(`users/${userId}/monthly_incomes`);
-        return from(incomes.add(monthlyIncome)).pipe(first());
-      })
-    );
   }
 }
