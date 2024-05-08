@@ -1,3 +1,4 @@
+<h1 class="m0">Expenses</h1>
 <p-toolbar styleClass="mb-4 gap-2">
   <ng-template pTemplate="left">
     <p-button
@@ -55,6 +56,13 @@
         [showClear]="true"
         (onClear)="onClearDate()"
       ></p-calendar>
+      <p-button
+        pRipple
+        severity="success"
+        label="View Monthly Expenses"
+        class="mr-2"
+        (onClick)="openMonthlyExpensesModal()"
+      />
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -107,7 +115,7 @@
           [rounded]="true"
           [outlined]="true"
           severity="success"
-          (click)="editExpense(transaction)"
+          (click)="editTransaction(transaction)"
         />
         <p-button
           pRipple
@@ -137,7 +145,7 @@
       <input
         pInputText
         id="expenseName"
-        [(ngModel)]="newTransaction.name"
+        [(ngModel)]="tempTransaction.name"
         name="expenseName"
         class="form-input"
       />
@@ -150,8 +158,9 @@
         [showIcon]="true"
         [showOnFocus]="false"
         inputId="buttondisplay"
-        [(ngModel)]="newTransaction.date"
+        [(ngModel)]="tempTransaction.date"
         name="expenseDate"
+        [disabled]="!!tempTransaction.isRecurring"
       ></p-calendar>
     </div>
     <div class="form-row">
@@ -159,7 +168,7 @@
       <p-dropdown
         class="form-input"
         [options]="expenseCategories"
-        [(ngModel)]="newTransaction.category"
+        [(ngModel)]="tempTransaction.category"
         [showClear]="true"
         placeholder="Select a Category"
         name="expenseCategory"
@@ -173,17 +182,19 @@
         type="number"
         pInputText
         id="expenseAmount"
-        [(ngModel)]="newTransaction.amount"
+        [(ngModel)]="tempTransaction.amount"
         name="expenseAmount"
         class="form-input"
       />
     </div>
     <div class="form-row">
-      <label class="form-label" for="expenseRecurring">Recurring:</label>
+      <label class="form-label" for="expenseRecurring"
+        >Is this a monthly recurring event?</label
+      >
       <p-checkbox
         binary="true"
         id="expenseRecurring"
-        [(ngModel)]="newTransaction.isRecurring"
+        [(ngModel)]="tempTransaction.isRecurring"
         name="expenseRecurring"
         class="form-input"
       ></p-checkbox>
@@ -212,7 +223,7 @@
       <input
         pInputText
         id="expenseName"
-        [(ngModel)]="selectedExpense.name"
+        [(ngModel)]="tempTransaction.name"
         name="expenseName"
         class="form-input"
       />
@@ -225,8 +236,10 @@
         [showIcon]="true"
         [showOnFocus]="false"
         inputId="buttondisplay"
-        [(ngModel)]="selectedExpense.date"
+        [(ngModel)]="tempTransaction.date"
         name="expenseDate"
+        [disabled]="!!tempTransaction.isRecurring"
+        [placeholder]="formattedDate"
       ></p-calendar>
     </div>
     <div class="form-row">
@@ -234,9 +247,9 @@
       <p-dropdown
         class="form-input"
         [options]="expenseCategories"
-        [(ngModel)]="selectedExpense.category"
+        [(ngModel)]="tempTransaction.category"
         [showClear]="true"
-        placeholder="Select a Category"
+        [placeholder]="tempTransaction.category"
         name="expenseCategory"
         optionLabel="name"
       ></p-dropdown>
@@ -247,7 +260,7 @@
         type="number"
         pInputText
         id="expenseAmount"
-        [(ngModel)]="selectedExpense.amount"
+        [(ngModel)]="tempTransaction.amount"
         name="expenseAmount"
         class="form-input"
       />
@@ -257,7 +270,7 @@
       <p-checkbox
         binary="true"
         id="expenseRecurring"
-        [(ngModel)]="selectedExpense.recurring"
+        [(ngModel)]="tempTransaction.isRecurring"
         name="expenseRecurring"
         class="form-input"
       ></p-checkbox>
@@ -277,4 +290,40 @@
       ></p-button>
     </div>
   </form>
+</p-dialog>
+<p-dialog
+  header="Monthly Expenses"
+  [(visible)]="showMonthlyExpensesModal"
+  [style]="{ width: '70vw' }"
+>
+  <p-button
+    pRipple
+    severity="success"
+    label="New"
+    icon="pi pi-plus"
+    class="mr-2"
+    (click)="createRecurringExpense()"
+  />
+  <div style="display: flex; gap: 20px">
+    <ng-container *ngFor="let expense of monthlyExpenses">
+      <p-card
+        [header]="expense.name"
+        [subheader]="expense.description"
+        [style]="{ width: '200px', height: '250px' }"
+      >
+        <span>{{ expense.amount | currency }}</span>
+        <ng-template pTemplate="footer">
+          <div class="flex">
+            <p-button
+              label="Delete"
+              severity="danger"
+              class="w-full"
+              (onClick)="deleteExpense(expense)"
+              styleClass="w-full"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </ng-container>
+  </div>
 </p-dialog>

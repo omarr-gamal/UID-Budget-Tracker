@@ -5,22 +5,9 @@ import { Transaction } from '../../models/transaction.model';
 import { Observable, Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 
-interface Expense {
-  id: number;
-  name: string;
-  date: string;  // using ISO string format for simplicity
-  category: string;
-  amount: number;
-  recurring: boolean;
-}
-interface NewExpense {
-  id: number;
-  name: string;
-  date: Date;  // using ISO string format for simplicity
-  category: number;
-  amount: number;
-  recurring: boolean;
-}
+import { UserExpensesService } from '../../services/user-expenses.service';
+import { MonthlyExpense } from '../../models/monthly-expense.model';
+
 @Component({
   selector: 'app-transactions-page',
   templateUrl: './transactions-page.component.html',
@@ -30,21 +17,32 @@ export class TransactionsPageComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
 
   transactions: Transaction[] = [];
-  expenses: Expense[] = [];
+  monthlyExpenses: MonthlyExpense[] = [];
   transactionSubscription: Subscription | undefined;
+  expensesSubscription: Subscription | undefined;
+  tempExpense: MonthlyExpense = { id: "", name: "", description: "", amount: 0 }
+
   selectedDate: Date = new Date();
   allFilled: boolean = true;
+  selectedTransactions: Transaction[] = [];
+  showAddExpenseModal: boolean = false;
+  showEditExpenseModal: boolean = false;
+  showMonthlyExpensesModal: boolean = false;
 
-  constructor(private transactionService: UserTransactionsService) { }
+  tempTransaction: Transaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+  formattedDate = this.formatDate(this.tempTransaction.date)
+  constructor(private transactionService: UserTransactionsService, private expensesService: UserExpensesService) { }
   ngOnInit() {
     this.transactions = []
-    this.expenses = []
     this.getTransactions();
-    console.log(this.transactions)
+    this.getAllMonthlyExpenses();
   }
   ngOnDestroy() {
     if (this.transactionSubscription) {
       this.transactionSubscription.unsubscribe();
+    }
+    if (this.expensesSubscription) {
+      this.expensesSubscription.unsubscribe();
     }
   }
   expenseCategories = [
@@ -72,25 +70,58 @@ export class TransactionsPageComponent implements OnInit {
       console.log(transaction);
     });
   }
-  newTransaction: Transaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+  getAllMonthlyExpenses() {
+    this.expensesService.getAllMonthlyExpenses().subscribe(
+      (expenses: MonthlyExpense[]) => {
+        // Assign fetched expenses to the monthlyExpenses array
+        this.monthlyExpenses = expenses;
+        console.log(this.monthlyExpenses)
+      },
+      (error) => {
+        console.error('Error fetching monthly expenses:', error);
+      }
+    );
+  }
   addNewTransaction() {
-    if (this.newTransaction.name && this.newTransaction.date && this.newTransaction.category && this.newTransaction.amount) {
+    if (this.tempTransaction.name && this.tempTransaction.date && this.tempTransaction.category && this.tempTransaction.amount) {
       this.allFilled = true;
-      this.newTransaction.category = this.expenseCategories[Number(this.newTransaction.category) - 1].name;
-      this.transactionService.addTransaction(this.newTransaction).subscribe(
+      this.tempTransaction.category = this.expenseCategories[Number(this.tempTransaction.category) - 1].name;
+      this.transactionService.addTransaction(this.tempTransaction).subscribe(
         () => {
           this.showAddExpenseModal = false;
-          this.newTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+          this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
           this.getTransactions();
         },
         (error) => {
           console.error('Error adding transaction:', error);
         }
       );
+
+      if (this.tempTransaction.isRecurring) {
+        this.tempExpense.name = this.tempTransaction.name;
+        this.tempExpense.description = this.tempTransaction.category;
+        this.tempExpense.amount = this.tempTransaction.amount;
+        this.expensesService.addMonthlyExpense(this.tempExpense).subscribe(
+          () => {
+            this.showAddExpenseModal = false;
+            this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+            this.getTransactions();
+            this.getAllMonthlyExpenses();
+          },
+          (error) => {
+            console.error('Error adding monthly expense:', error);
+          }
+        );
+      }
     } else {
       this.allFilled = false;
     }
 
+  }
+  createRecurringExpense() {
+    this.showMonthlyExpensesModal = false;
+    this.tempTransaction.isRecurring = true;
+    this.openAddExpenseModal()
   }
   filterGlobal(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -153,6 +184,24 @@ export class TransactionsPageComponent implements OnInit {
       console.error('Transaction ID is undefined or null.');
     }
   }
+  deleteExpense(expense: MonthlyExpense): void {
+    if (!expense.id) {
+      console.error('Expense ID is undefined.');
+      return;
+    }
+
+    this.expensesService.deleteMonthlyExpense(expense.id).subscribe({
+      next: () => {
+        console.log('Expense deleted successfully.');
+        // Remove the deleted expense from the monthlyExpenses array
+        this.monthlyExpenses = this.monthlyExpenses.filter(e => e.id !== expense.id);
+      },
+      error: (error) => {
+        console.error('Error deleting expense:', error);
+      }
+    });
+    this.getAllMonthlyExpenses()
+  }
 
 
   formatDate(inputDate: Date): string {
@@ -160,27 +209,18 @@ export class TransactionsPageComponent implements OnInit {
     const month = String(inputDate.getMonth() + 1).padStart(2, '0');
     const day = String(inputDate.getDate()).padStart(2, '0');
     console.log(`${day}-${month}-${year}`)
-    return `${day}-${month}-${year}`;
+    return `${day}/${month}/${year}`;
   }
-  selectedTransactions: Transaction[] = [];
-  selectedExpenses: Expense[] = [];
-  showAddExpenseModal: boolean = false;
-  showEditExpenseModal: boolean = false;
-  newExpense: NewExpense = { id: 0, name: '', date: new Date(), category: 0, amount: 0, recurring: false };
-  selectedExpense: Expense = { id: 0, name: '', date: '', category: '', amount: 0, recurring: false };
 
-
-
-  get reversedExpenses(): Expense[] {
-    return this.expenses.slice().reverse();
-  }
   openAddExpenseModal() {
     this.showAddExpenseModal = true;
   }
   openEditExpenseModal() {
     this.showEditExpenseModal = true;
   }
-
+  openMonthlyExpensesModal() {
+    this.showMonthlyExpensesModal = true;
+  }
 
 
   deleteSelectedTransactions() {
@@ -196,23 +236,32 @@ export class TransactionsPageComponent implements OnInit {
 
 
 
-  editExpense(expense: Expense) {
-    this.selectedExpense = { ...expense }; // Create a copy of the selected expense
+  editTransaction(transaction: Transaction) {
+    this.tempTransaction = { ...transaction }; // Create a copy of the selected expense
+    console.log(this.tempTransaction)
     this.showEditExpenseModal = true; // Open the edit modal
 
   }
+
   saveExpense() {
-    if (this.selectedExpense) {
-      // Find the index of the selected expense in the expenses array
-      const index = this.expenses.findIndex(expense => expense.id === this.selectedExpense!.id);
-      if (index !== -1) {
-        // Update the expense in the expenses array
-        this.expenses[index] = { ...this.selectedExpense };
-        console.log('Expense updated:', this.selectedExpense);
-      }
+    if (this.tempTransaction && this.tempTransaction.id) {
+      const changes: Partial<Transaction> = { ...this.tempTransaction };
+      const transaction_id = this.tempTransaction.id; // Assuming transaction ID is stored as string
+      delete changes.id; // Remove the ID property from changes object
+      this.transactionService.updateTransaction(transaction_id, changes).subscribe({
+        next: () => {
+          console.log('Expense updated successfully.');
+          // Refresh transactions after update
+          this.getTransactions();
+          this.showEditExpenseModal = false; // Close the edit modal
+        },
+        error: (error) => {
+          console.error('Error updating expense:', error);
+        }
+      });
     }
-    this.showEditExpenseModal = false; // Close the edit modal  }
   }
+
 
 
 }
