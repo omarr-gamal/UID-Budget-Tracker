@@ -1,4 +1,5 @@
 export interface Transaction {
+
     amount: number;
     category?: string;
     description: string;
