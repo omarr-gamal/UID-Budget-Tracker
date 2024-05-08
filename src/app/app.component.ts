@@ -5,6 +5,10 @@ import { faPen, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from './services/auth.service';
+import { UserTransactionsService } from './services/user-transactions.service';
+import { UserBudgetsService } from './services/user-budgets.service';
+import { UserIncomesService } from './services/user-incomes.service';
+import { UserExpensesService } from './services/user-expenses.service';
 
 
 @Component({
@@ -21,6 +25,12 @@ export class AppComponent {
   faCheck = faCheck
   faXmark = faXmark 
 
-  constructor(private firestore: Firestore, public auth: AuthService) { }
+  constructor(
+    public ts: UserTransactionsService, 
+    public bs: UserBudgetsService,
+    public is: UserIncomesService,
+    public es: UserExpensesService,
+    public auth: AuthService
+  ) { }
 
 }
