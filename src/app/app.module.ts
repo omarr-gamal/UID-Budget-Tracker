@@ -37,6 +37,25 @@ import { ReportsPageComponent } from './pages/reports-page/reports-page.componen
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { PanelModule } from 'primeng/panel';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SplitterModule } from 'primeng/splitter';
+import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
+
+
+import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
+import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
+import { DashboardSummaryCardsComponent } from './components/dashboard-summary-cards/dashboard-summary-cards.component';
+import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
+import { DashboardExpensesBrokenDownComponent } from './components/dashboard-expenses-broken-down/dashboard-expenses-broken-down.component';
+import { CustomPanelComponent } from './components/custom-panel/custom-panel.component';
+import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
+import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -47,6 +66,11 @@ import { DropdownModule } from 'primeng/dropdown';
     TransactionsPageComponent,
     BudgetsPageComponent,
     ReportsPageComponent,
+    DashboardSummaryCardsComponent,
+    DashboardExpensesBrokenDownComponent,
+    CustomPanelComponent,
+    PageWrapperComponent,
+    DashboardMonthlyChartComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +96,12 @@ import { DropdownModule } from 'primeng/dropdown';
     DialogModule,
     CalendarModule,
     DropdownModule
+    PanelModule,
+    CardModule,
+    FieldsetModule,
+    SplitterModule,
+    ChartModule,
+    TableModule
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
