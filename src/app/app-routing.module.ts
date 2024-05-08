@@ -17,11 +17,7 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   { path: 'budgets', component: BudgetsPageComponent },
-  {
-    path: 'reports',
-    component: ReportsPageComponent,
-    canActivate: [authGuard],
-  },
+  { path: 'reports', component: ReportsPageComponent },
   { path: 'incomes', component: IncomesPageComponent },
   { path: '**', redirectTo: '' },
 ];

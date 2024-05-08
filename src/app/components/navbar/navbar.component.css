@@ -1,15 +1,14 @@
-.navbar {
-  background-color: #007bff !important;
-}
-
-.navbar {
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-
 img {
   width: 32px;
   height: 32px;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin-right: 0.5rem;
+
+}
+
+p-menubar {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
 }

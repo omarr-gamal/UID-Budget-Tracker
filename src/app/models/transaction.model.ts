@@ -2,6 +2,7 @@ export interface Transaction {
   amount: number;
   category?: string;
   description: string;
-  is_an_expense: 'boolean';
-  time: Date;
+  budgetName?: string;
+  transactionType: 'Income' | 'Expense';
+  date: Date;
 }
