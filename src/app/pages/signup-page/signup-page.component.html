@@ -1,17 +1,17 @@
-<p-card class="flex justify-content-center">
+<p-card class="card flex justify-content-center">
     <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()">
-        <div class="field">
-            <label class="label">Name</label>
+        <div class="field"> 
+            <p class="label">Name</p>
             <input type="text" pInputText placeholder="name" formControlName="displayName" [class.invalid]="isInvalid('displayName')">
             <small class="p-error block" *ngIf="isInvalid('displayName')">{{ getErrorMessage('displayName') }}</small>
         </div>
         <div class="field">
-            <label class="label">Email address</label>
+            <p class="label">Email address</p>
             <input type="text" pInputText placeholder="email address" formControlName="email" [class.invalid]="isInvalid('email')">
             <small class="p-error block" *ngIf="isInvalid('email')">{{ getErrorMessage('email') }}</small>
         </div>
         <div class="field">
-            <label for="password" class="block">Password</label>
+            <p for="password" class="label">Password</p>
             <input type="password" pInputText placeholder="password" formControlName="password" [class.invalid]="isInvalid('password')">
             <small class="p-error block" *ngIf="isInvalid('password')">{{ getErrorMessage('password') }}</small>
         </div>
