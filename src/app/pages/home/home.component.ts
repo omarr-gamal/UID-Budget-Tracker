@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { PanelModule } from 'primeng/panel';
+
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,9 @@ import { UserService } from '../../services/user.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
   constructor(public firestore: Firestore, public auth: AuthService, public userService: UserService) {
-    
+
+
   }
 }

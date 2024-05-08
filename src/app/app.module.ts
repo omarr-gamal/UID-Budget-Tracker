@@ -22,9 +22,24 @@ import { HomeComponent } from './pages/home/home.component';
 //primeng components
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
-import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
+import { PanelModule } from 'primeng/panel';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SplitterModule } from 'primeng/splitter';
+import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
+
+
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
+import { DashboardSummaryCardsComponent } from './components/dashboard-summary-cards/dashboard-summary-cards.component';
+import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
+import { DashboardExpensesBrokenDownComponent } from './components/dashboard-expenses-broken-down/dashboard-expenses-broken-down.component';
+import { CustomPanelComponent } from './components/custom-panel/custom-panel.component';
+import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
+import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
+
+
 
 
 @NgModule({
@@ -35,7 +50,12 @@ import { ReportsPageComponent } from './pages/reports-page/reports-page.componen
     HomeComponent,
     TransactionsPageComponent,
     BudgetsPageComponent,
-    ReportsPageComponent
+    ReportsPageComponent,
+    DashboardSummaryCardsComponent,
+    DashboardExpensesBrokenDownComponent,
+    CustomPanelComponent,
+    PageWrapperComponent,
+    DashboardMonthlyChartComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +68,13 @@ import { ReportsPageComponent } from './pages/reports-page/reports-page.componen
     provideAuth(() => getAuth()),
     //primeng
     MenubarModule,
-    ButtonModule
+    ButtonModule,
+    PanelModule,
+    CardModule,
+    FieldsetModule,
+    SplitterModule,
+    ChartModule,
+    TableModule
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }

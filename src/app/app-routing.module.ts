@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'transactions', component: TransactionsPageComponent, canActivate: [authGuard] },
   { path: 'budgets', component: BudgetsPageComponent },
-  { path: 'reports', component: ReportsPageComponent, canActivate: [authGuard] },
+  { path: 'reports', component: ReportsPageComponent },
   { path: '**', redirectTo: '' }
 ];
 
