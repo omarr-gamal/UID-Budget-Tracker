@@ -5,16 +5,15 @@ import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   items: MenuItem[] = [];
   user: any;
-  constructor(public auth: AuthService) { }
-
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user) => {
       this.user = user;
       this.updateMenuItems();
     });
@@ -25,23 +24,28 @@ export class NavbarComponent {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: ['/home']
+        routerLink: ['/home'],
       },
       {
         label: 'Transactions',
         icon: 'pi pi-money-bill',
-        routerLink: ['/transactions']
+        routerLink: ['/transactions'],
       },
       {
         label: 'Budgets',
         icon: 'pi pi-briefcase',
-        routerLink: ['/budgets']
+        routerLink: ['/budgets'],
       },
       {
         label: 'Reports',
         icon: 'pi pi-file',
-        routerLink: ['/reports']
-      }
+        routerLink: ['/reports'],
+      },
+      {
+        label: 'Incomes',
+        icon: 'pi pi-file',
+        routerLink: ['/incomes'],
+      },
     ];
 
     if (this.user) {
@@ -51,11 +55,10 @@ export class NavbarComponent {
           {
             label: 'Logout',
             icon: 'pi pi-sign-out',
-            command: () => this.auth.signOut()
-          }
-        ]
+            command: () => this.auth.signOut(),
+          },
+        ],
       });
     }
   }
-
 }

@@ -1,0 +1,30 @@
+.my-card {
+  .p-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .p-card-title {
+    color: black;
+  }
+  .p-card-subtitle {
+    color: black;
+  }
+  .p-card-body {
+  }
+
+  .card-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .income-display {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bold-text {
+    font-weight: bold;
+  }
+}

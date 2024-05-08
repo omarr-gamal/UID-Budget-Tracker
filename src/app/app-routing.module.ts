@@ -7,18 +7,27 @@ import { TransactionsPageComponent } from './pages/transactions-page/transaction
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
-
+import { IncomesPageComponent } from './incomes-page/incomes-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'transactions', component: TransactionsPageComponent, canActivate: [authGuard] },
+  {
+    path: 'transactions',
+    component: TransactionsPageComponent,
+    canActivate: [authGuard],
+  },
   { path: 'budgets', component: BudgetsPageComponent },
-  { path: 'reports', component: ReportsPageComponent, canActivate: [authGuard] },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'reports',
+    component: ReportsPageComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'incomes', component: IncomesPageComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -8,8 +8,8 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { AngularFireModule } from '@angular/fire/compat'
-import { getFirestore, provideFirestore } from '@angular/fire/firestore'
+import { AngularFireModule } from '@angular/fire/compat';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
@@ -22,10 +22,16 @@ import { HomeComponent } from './pages/home/home.component';
 //primeng components
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+
 import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
-
+import { IncomeCardComponent } from './income-card/income-card.component';
+import { IncomesPageComponent } from './incomes-page/incomes-page.component';
+import { DividerModule } from 'primeng/divider';
+import { DataViewModule } from 'primeng/dataview';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,9 @@ import { ReportsPageComponent } from './pages/reports-page/reports-page.componen
     HomeComponent,
     TransactionsPageComponent,
     BudgetsPageComponent,
-    ReportsPageComponent
+    ReportsPageComponent,
+    IncomeCardComponent,
+    IncomesPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,11 +56,13 @@ import { ReportsPageComponent } from './pages/reports-page/reports-page.componen
     provideAuth(() => getAuth()),
     //primeng
     MenubarModule,
-    ButtonModule
+    ButtonModule,
+    CardModule,
+    DividerModule,
+    DataViewModule,
+    TableModule,
   ],
-  providers: [
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

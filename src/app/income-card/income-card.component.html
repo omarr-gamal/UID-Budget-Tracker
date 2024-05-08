@@ -1,0 +1,19 @@
+<p-card
+  [header]="monthlyIncome.name"
+  subheader="Income Source"
+  [style]="{ width: '360px' }"
+  class="my-card"
+>
+  <p>{{ monthlyIncome.description }}</p>
+  <div class="income-display">
+    <div>Monthly Income:</div>
+    <div class="bold-text">${{ monthlyIncome.amount }}/Month</div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-divider></p-divider>
+    <div class="card-buttons">
+      <p-button icon="pi pi-pencil" severity="secondary"></p-button>
+      <p-button icon="pi pi-times" severity="danger"></p-button>
+    </div>
+  </ng-template>
+</p-card>
