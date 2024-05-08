@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AngularFireModule } from '@angular/fire/compat'
@@ -52,8 +52,6 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +77,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    ReactiveFormsModule,
     //primeng
     MenubarModule,
     ButtonModule,

@@ -1,1 +1,22 @@
-<p>login-page works!</p>
+<p-card class="flex justify-content-center">
+    <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="field">
+            <label class="label">Email address</label>
+            <input type="text" pInputText placeholder="Email address" formControlName="email" [class.invalid]="isInvalid('email')">
+            <small class="p-error block" *ngIf="isInvalid('email')">{{ getErrorMessage('email') }}</small>
+        </div>
+        <div class="field">
+            <label for="password" class="block">Password</label>
+            <input type="password" pInputText placeholder="Password" formControlName="password" [class.invalid]="isInvalid('password')">
+            <small class="p-error block" *ngIf="isInvalid('password')">{{ getErrorMessage('password') }}</small>
+        </div>
+        <button type="submit" pButton label="Login" [disabled]="loginForm.invalid"></button>
+    </form>
+</p-card>
+
+<p-dialog header="Oh no!" [modal]="true" [(visible)]="loginError" [style]="{ width: '25rem' }">
+    <p>{{ loginErrorMessage }}</p>
+    <div class="flex justify-content-center">
+        <p-button label="Okay" (click)="loginError = false; loginForm.reset()" />
+    </div>
+</p-dialog>
