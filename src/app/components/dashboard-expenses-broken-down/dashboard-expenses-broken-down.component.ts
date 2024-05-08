@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Expense {
-  category: string;
-  amount: number;
-  percentage?: string;
-}
+import { UserTransactionsService } from '../../services/user-transactions.service';
+import { Transaction } from '../../models/transaction.model';
 
 @Component({
   selector: 'app-dashboard-expenses-broken-down',
@@ -13,21 +9,26 @@ interface Expense {
 })
 export class DashboardExpensesBrokenDownComponent implements OnInit {
   data: any;
-  expenses: Expense[] = [
-    { category: 'Food', amount: 120 },
-    { category: 'Utilities', amount: 80 },
-    { category: 'Rent', amount: 900 },
-    { category: 'Transportation', amount: 50 }
-  ];
+  expenses: Transaction[] = [];
   totalExpenses: number = 0;
+  expenseCategories: any[] = [];  // Add this to store categories
+
+  constructor(private userTransactionsService: UserTransactionsService) { }
 
   ngOnInit() {
-    this.totalExpenses = this.expenses.reduce((sum, current) => sum + current.amount, 0);
-    this.expenses = this.expenses.map(expense => ({
-      ...expense,
-      percentage: ((expense.amount / this.totalExpenses) * 100).toFixed(2) + '%'
-    }));
-    this.updateChartData();
+    this.expenseCategories = this.userTransactionsService.getExpenseCategories();  // Fetch categories
+    this.userTransactionsService.getExpenseTransactions().subscribe({
+      next: (expenses: Transaction[]) => {
+        this.expenses = expenses;
+        this.totalExpenses = expenses.reduce((sum, current) => sum + current.amount, 0);
+        this.expenses = this.expenses.map(expense => ({
+          ...expense,
+          percentage: ((expense.amount / this.totalExpenses) * 100).toFixed(2) + '%'
+        }));
+        this.updateChartData();
+      },
+      error: error => console.error('Error fetching expense transactions:', error)
+    });
   }
 
   updateChartData() {
@@ -35,23 +36,19 @@ export class DashboardExpensesBrokenDownComponent implements OnInit {
       labels: this.expenses.map(expense => expense.category),
       datasets: [{
         data: this.expenses.map(expense => expense.amount),
-        backgroundColor: [
-          "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"
-        ],
-        hoverBackgroundColor: [
-          "cyan"
-        ]
+        backgroundColor: this.expenses.map(expense => this.getColor(expense.category!)),
+        hoverBackgroundColor: this.expenses.map(expense => this.getHoverColor(expense.category!))
       }]
     };
   }
 
   getColor(category: string): string {
-    const colors: { [key: string]: string } = {
-      'Food': '#FF6384',
-      'Utilities': '#36A2EB',
-      'Rent': '#FFCE56',
-      'Transportation': '#4BC0C0'
-    };
-    return colors[category] || '#ccc';
+    const categoryColor = this.expenseCategories.find(cat => cat.name === category)?.color;
+    return categoryColor || '#ccc';  // if color undefined
+  }
+
+
+  getHoverColor(category: string): string {
+    return this.getColor(category) + 'cc';
   }
 }

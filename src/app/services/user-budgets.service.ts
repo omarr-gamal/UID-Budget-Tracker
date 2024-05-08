@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { AuthService } from './auth.service';
-import { Budget } from '../models/budget.model';
+import { Budget, budgetOther } from '../models/budget.model';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { 
-  Observable, from,
+  Observable, combineLatest, forkJoin, from,
   map, switchMap, take 
 } from 'rxjs';
+import { Transaction } from '../models/transaction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +60,46 @@ export class UserBudgetsService {
             observer.error('User not authenticated');
           });
         }
+
         const userId = user.uid;
-        const budgets = this.afs.collection<Budget>(`users/${userId}/budgets`);
-        return budgets.valueChanges({ idField: 'id' });
+        
+        const transactions = this.afs.collection<Transaction>(`users/${userId}/transactions`);
+        const budgets$ = transactions.valueChanges({ idField: 'id' }).pipe(
+          map((transactions: Transaction[]) => {
+            const budgetProgress: { [key: string]: number } = {};
+            for (const transaction of transactions) {
+              if (transaction.transactionType === "Income") continue;
+              var budgetName = 'Other'
+              if (transaction.budgetName) budgetName = transaction.budgetName
+              
+              if (budgetProgress[budgetName]) budgetProgress[budgetName] += transaction.amount;
+              else budgetProgress[budgetName] = transaction.amount;            
+            }
+            return budgetProgress;
+          })
+        )
+
+        const budgetsCollection = this.afs.collection<Budget>(`users/${userId}/budgets`);
+        const budgetsSnapshot$ = budgetsCollection.valueChanges({ idField: 'id' });
+
+        return combineLatest([budgets$, budgetsSnapshot$]).pipe(
+          map(([budgetProgress, budgetsSnapshot]) => {
+            const budgets: Budget[] = budgetsSnapshot.map(budget => ({ ...budget }));
+
+            if (!budgets.find(budget => budget.name === 'Other'))
+              budgets.push(budgetOther);
+            
+            var finalBudgets: Budget[] = [];
+            for (const budget of budgets) {
+              finalBudgets.push({ 
+                ...budget, 
+                progress: budgetProgress[budget.name] ? budgetProgress[budget.name] : 0
+              });
+            }
+
+            return finalBudgets;
+          })
+        );
       })
     )
   }
