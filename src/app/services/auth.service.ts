@@ -5,8 +5,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 
 import { Observable, from, of } from 'rxjs';
-import { switchMap, take, filter, map } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { switchMap, take, filter, map, catchError } from 'rxjs/operators';
+import { User, defaultUser } from '../models/user.model';
 import { getAuth, signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo } from '@angular/fire/auth';
 
 @Injectable({
@@ -32,24 +32,29 @@ export class AuthService {
   }
 
   async googleSignin() {
-    const provider = new GoogleAuthProvider();
     const auth = getAuth();
+    const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result) => {
-      const user = result.user;
+      const user = {
+        ...defaultUser,
+        uid: result.user.uid,
+        displayName: result.user.displayName,
+        email: result.user.email,
+      }
       return this.updateUserData(user as User);
         // console.log(user)
     }).catch((error) => {
         console.log(error)
     });
   }
-  
-  emailSignIn(email: string, password: string): Observable<User | null> {
+
+  emailSignIn(email: string, password: string): Observable<Boolean> {
     return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
       map((credential) => {
         if (credential && credential.user) {
-          return credential.user as User;
+          return true
         } else {
-          return null;
+          return false;
         }
       }),
     )
@@ -59,12 +64,11 @@ export class AuthService {
     return from(this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(
       switchMap((credential) => {
         if (credential && credential.user) {
-          console.log(credential)
           const user = {
+            ...defaultUser,
             uid: credential.user.uid,
-            email: credential.user.email,
             displayName: displayName,
-            photoURL: 'https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg'
+            email: email,
           }
           
           return from(this.updateUserData(user as User));
@@ -75,22 +79,17 @@ export class AuthService {
     )
   }
   
-  private updateUserData(user: User) {
+  private updateUserData(user: User): Observable<Boolean> {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
-    const data = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL
-    };
-    
-    return userRef.set(data, { merge: true });
+    return from(userRef.set(user, { merge: true })).pipe(
+      map(() => true), // If the promise resolves, emit true
+      catchError(() => of(false)) // If there's an error, emit false
+    );
   }
 
   async signOut() {
     await this.afAuth.signOut();
     return this.router.navigate(['/']);
   }
-
 }

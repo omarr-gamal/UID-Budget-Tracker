@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
-import { PanelModule } from 'primeng/panel';
 
+import { UserBudgetsService } from '../../services/user-budgets.service';
+import { UserIncomesService } from '../../services/user-incomes.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +12,12 @@ import { PanelModule } from 'primeng/panel';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
-  constructor(public firestore: Firestore, public auth: AuthService, public userService: UserService) {
-
-
+  constructor(
+    public firestore: Firestore, 
+    public auth: AuthService, 
+    public userBudgetsService: UserBudgetsService,
+    public userIncomesService: UserIncomesService
+  ) {
+    
   }
 }
