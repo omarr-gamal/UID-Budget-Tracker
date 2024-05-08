@@ -45,6 +45,15 @@ export class LoginPageComponent {
     })
   }
 
+  googleSignin() {
+    this.auth.googleSignin()
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        this.router.navigate(['/']);
+      }
+    })
+  }
+
   isInvalid(field: string): boolean {
     const control = this.loginForm.get(field);
     if (control) {

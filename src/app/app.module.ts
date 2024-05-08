@@ -39,6 +39,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { SplitterModule } from 'primeng/splitter';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
@@ -100,7 +102,9 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
     FieldsetModule,
     SplitterModule,
     ChartModule,
-    TableModule
+    TableModule,
+    InputIconModule,
+    IconFieldModule
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
