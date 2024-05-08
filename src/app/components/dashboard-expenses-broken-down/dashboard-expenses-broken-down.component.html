@@ -7,7 +7,7 @@
                 <tr>
                     <td><span class="color-circle" [ngStyle]="{'background-color': getColor(expense.category)}"></span>
                         {{ expense.category }}</td>
-                    <td>{{ expense.amount | currency:'EGP '}}</td>
+                    <td>{{ expense.amount | currency:'EGP':'symbol-narrow'}}</td>
                     <td>{{ expense.percentage }}</td>
                 </tr>
             </ng-template>

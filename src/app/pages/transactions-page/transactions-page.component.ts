@@ -15,6 +15,7 @@ import { MonthlyExpense } from '../../models/monthly-expense.model';
 })
 export class TransactionsPageComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
+  expenseCategories: any[] = [];
 
   transactions: Transaction[] = [];
   monthlyExpenses: MonthlyExpense[] = [];
@@ -33,7 +34,8 @@ export class TransactionsPageComponent implements OnInit {
   formattedDate = this.formatDate(this.tempTransaction.date)
   constructor(private transactionService: UserTransactionsService, private expensesService: UserExpensesService) { }
   ngOnInit() {
-    this.transactions = []
+    this.transactions = [];
+    this.expenseCategories = this.transactionService.getExpenseCategories();
     this.getTransactions();
     this.getAllMonthlyExpenses();
   }
@@ -45,17 +47,7 @@ export class TransactionsPageComponent implements OnInit {
       this.expensesSubscription.unsubscribe();
     }
   }
-  expenseCategories = [
-    { id: 1, name: "Rent" },
-    { id: 2, name: "Utilities" },
-    { id: 3, name: "Groceries" },
-    { id: 4, name: "Transportation" },
-    { id: 5, name: "HealthCare" },
-    { id: 6, name: "Entertainment" },
-    { id: 7, name: "Clothing" },
-    { id: 8, name: "Education" },
-    { id: 9, name: "Miscellaneous" }
-  ];
+
   getTransactions() {
     this.transactionSubscription = this.transactionService.getAllTransactions()
       .subscribe({

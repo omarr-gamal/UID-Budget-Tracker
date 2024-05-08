@@ -8,6 +8,11 @@ p-card {
     text-align: center;
 }
 
+::ng-deep .p-card-title {
+    font-size: medium;
+}
+
+
 p {
     font-size: 1rem;
 }
@@ -42,6 +47,4 @@ p {
     }
 }
 
-@media (min-width: 1025px) {
-    p-card {}
-}
+@media (min-width: 1025px) {}
