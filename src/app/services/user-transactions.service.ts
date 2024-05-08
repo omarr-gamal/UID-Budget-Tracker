@@ -8,6 +8,7 @@ import {
   Observable, from,
   map, switchMap, take
 } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,14 @@ export class UserTransactionsService {
 
         const userId = user.uid;
         const transactions = this.afs.collection(`users/${userId}/transactions`);
+
+        var newBalance = user.mainWalletAmount;
+        if (transaction.transactionType === "Income") newBalance += transaction.amount;
+        else newBalance -= transaction.amount;
+
+        const usersCollection = this.afs.collection<User>(`users`);
+        usersCollection.doc(user.uid).update({"mainWalletAmount": newBalance})
+
         return from(transactions.add(transaction)).pipe(
           map((docRef) => {
             return docRef.id;

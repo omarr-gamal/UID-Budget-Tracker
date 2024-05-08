@@ -47,6 +47,15 @@ export class SignupPageComponent {
     })
   }
 
+  googleSignup() {
+    this.auth.googleSignin()
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        this.router.navigate(['/']);
+      }
+    })
+  }
+
   isInvalid(field: string): boolean {
     const control = this.signupForm.get(field);
     if (control) {
