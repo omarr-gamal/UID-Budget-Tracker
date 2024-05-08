@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { MenuItem } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,11 @@ import { MenuItem } from 'primeng/api';
 export class NavbarComponent {
   items: MenuItem[] = [];
   user: any;
-  constructor(public auth: AuthService) { }
+
+  constructor(
+    public auth: AuthService,
+    private router: Router
+  ) { }
 
 
   ngOnInit() {
@@ -56,6 +61,10 @@ export class NavbarComponent {
         ]
       });
     }
+  }
+
+  redirectToLoginPage(): void {
+    this.router.navigate(['/login']);
   }
 
 }

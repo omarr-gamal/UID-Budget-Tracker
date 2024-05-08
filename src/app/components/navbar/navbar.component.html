@@ -9,7 +9,7 @@
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!user;">
-            <p-button label="Login" (onClick)="auth.googleSignin()"></p-button>
+            <p-button label="Login" (onClick)="redirectToLoginPage()"></p-button>
         </div>
     </ng-template>
 </p-menubar>
