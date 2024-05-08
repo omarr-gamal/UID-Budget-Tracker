@@ -49,6 +49,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,8 @@ import { DropdownModule } from 'primeng/dropdown';
     CalendarModule,
     InputTextareaModule,
     DropdownModule,
+    ConfirmDialogModule,
+    ToastModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],

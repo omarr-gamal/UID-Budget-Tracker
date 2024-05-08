@@ -57,9 +57,18 @@
         severity="success"
       ></p-button>
       <p-button
+        *ngIf="editMode"
         icon="pi pi-times"
         (click)="cancelEdit()"
+        severity="secondary"
+        label="Cancel Editing"
+      ></p-button>
+      <p-confirmDialog [style]="{ width: '40vw' }"></p-confirmDialog>
+      <p-button
+        *ngIf="!editMode"
+        icon="pi pi-times"
         severity="danger"
+        (click)="confirmDeletion()"
       ></p-button>
     </div>
   </ng-template>
