@@ -29,17 +29,11 @@
   dataKey="id"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   [showCurrentPageReport]="true"
-  [globalFilterFields]="[
-    'expense.name',
-    'expense..date',
-    'expense.category',
-    'expense.amount',
-    'expense.recurring'
-  ]"
+  [globalFilterFields]="['name', 'date', 'category', 'amount', 'recurring']"
   [(selection)]="selectedExpenses"
 >
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
+    <div class="flex align-items-center justify-content-between search-cont">
       <h5 class="m-0">Manage Expenses</h5>
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
@@ -50,6 +44,17 @@
           placeholder="Search..."
         />
       </span>
+      <p-calendar
+        [showIcon]="true"
+        [showOnFocus]="false"
+        inputId="buttondisplay"
+        (onSelect)="filterDate($event)"
+        view="month"
+        dateFormat="yy-mm"
+        [(ngModel)]="selectedDate"
+        [showClear]="true"
+        (onClear)="onClearDate()"
+      ></p-calendar>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -131,20 +136,21 @@
         pInputText
         id="expenseName"
         [(ngModel)]="newExpense.name"
-        name="name"
+        name="expenseName"
         class="form-input"
       />
     </div>
     <div class="form-row">
       <label class="form-label" for="expenseDate">Date:</label>
-      <input
-        type="date"
-        pInputText
-        id="expenseDate"
-        [(ngModel)]="newExpense.date"
-        name="date"
+      <p-calendar
+        showAnim="slideDown"
         class="form-input"
-      />
+        [showIcon]="true"
+        [showOnFocus]="false"
+        inputId="buttondisplay"
+        [(ngModel)]="newExpense.date"
+        name="expenseDate"
+      ></p-calendar>
     </div>
     <div class="form-row">
       <label class="form-label" for="expenseCategory">Category:</label>
@@ -152,11 +158,12 @@
         class="form-input"
         [options]="expenseCategories"
         [(ngModel)]="newExpense.category"
-        [checkmark]="true"
-        optionLabel="name"
         [showClear]="true"
         placeholder="Select a Category"
-      />
+        name="expenseCategory"
+        optionLabel="name"
+        optionValue="id"
+      ></p-dropdown>
     </div>
     <div class="form-row">
       <label class="form-label" for="expenseAmount">Amount:</label>
@@ -165,7 +172,7 @@
         pInputText
         id="expenseAmount"
         [(ngModel)]="newExpense.amount"
-        name="amount"
+        name="expenseAmount"
         class="form-input"
       />
     </div>
@@ -175,15 +182,97 @@
         binary="true"
         id="expenseRecurring"
         [(ngModel)]="newExpense.recurring"
-        name="recurring"
+        name="expenseRecurring"
         class="form-input"
       ></p-checkbox>
     </div>
+    <div
+      *ngIf="!allFilled"
+      class="p-text-bold p-text-uppercase p-text-center p-error"
+    >
+      Please fill all the fields.
+    </div>
+
     <div class="form-submit-cont">
       <p-button label="Save" (click)="addExpense()"></p-button>
       <p-button label="Cancel" (click)="showAddExpenseModal = false"></p-button>
     </div>
   </form>
 </p-dialog>
+<p-dialog
+  header="Edit Expense"
+  [(visible)]="showEditExpenseModal"
+  [style]="{ width: '50vw' }"
+>
+  <form class="form-layout">
+    <div class="form-row">
+      <label class="form-label" for="expenseName">Name:</label>
+      <input
+        pInputText
+        id="expenseName"
+        [(ngModel)]="selectedExpense.name"
+        name="expenseName"
+        class="form-input"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseDate">Date:</label>
+      <p-calendar
+        showAnim="slideDown"
+        class="form-input"
+        [showIcon]="true"
+        [showOnFocus]="false"
+        inputId="buttondisplay"
+        [(ngModel)]="selectedExpense.date"
+        name="expenseDate"
+      ></p-calendar>
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseCategory">Category:</label>
+      <p-dropdown
+        class="form-input"
+        [options]="expenseCategories"
+        [(ngModel)]="selectedExpense.category"
+        [showClear]="true"
+        placeholder="Select a Category"
+        name="expenseCategory"
+        optionLabel="name"
+      ></p-dropdown>
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseAmount">Amount:</label>
+      <input
+        type="number"
+        pInputText
+        id="expenseAmount"
+        [(ngModel)]="selectedExpense.amount"
+        name="expenseAmount"
+        class="form-input"
+      />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="expenseRecurring">Recurring:</label>
+      <p-checkbox
+        binary="true"
+        id="expenseRecurring"
+        [(ngModel)]="selectedExpense.recurring"
+        name="expenseRecurring"
+        class="form-input"
+      ></p-checkbox>
+    </div>
+    <div
+      *ngIf="!allFilled"
+      class="p-text-bold p-text-uppercase p-text-center p-error"
+    >
+      Please fill all the fields.
+    </div>
 
-<p-button label="Add Expense" (click)="showAddExpenseModal = true"></p-button>
+    <div class="form-submit-cont">
+      <p-button label="Save" (click)="saveExpense()"></p-button>
+      <p-button
+        label="Cancel"
+        (click)="showEditExpenseModal = false"
+      ></p-button>
+    </div>
+  </form>
+</p-dialog>

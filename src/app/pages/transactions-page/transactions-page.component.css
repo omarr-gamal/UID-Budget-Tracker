@@ -24,3 +24,15 @@
   gap: 20px;
   justify-content: center;
 }
+.search-cont {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+::ng-deep .p-datepicker table td {
+  padding: 0.0rem;
+}
+::ng-deep .p-datepicker {
+  padding: 0.0rem;
+}

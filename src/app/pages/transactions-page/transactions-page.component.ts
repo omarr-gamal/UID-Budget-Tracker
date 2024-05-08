@@ -9,7 +9,14 @@ interface Expense {
   amount: number;
   recurring: boolean;
 }
-
+interface NewExpense {
+  id: number;
+  name: string;
+  date: Date;  // using ISO string format for simplicity
+  category: number;
+  amount: number;
+  recurring: boolean;
+}
 @Component({
   selector: 'app-transactions-page',
   templateUrl: './transactions-page.component.html',
@@ -54,34 +61,63 @@ export class TransactionsPageComponent {
   ];
   selectedExpenses: Expense[] = [];
   showAddExpenseModal: boolean = false;
-  newExpense: Expense = { id: 0, name: '', date: '', category: '', amount: 0, recurring: false };
+  showEditExpenseModal: boolean = false;
+  allFilled: boolean = true;
+  newExpense: NewExpense = { id: 0, name: '', date: new Date(), category: 0, amount: 0, recurring: false };
+  selectedExpense: Expense = { id: 0, name: '', date: '', category: '', amount: 0, recurring: false };
   expenseCategories = [
-    { name: "Rent" },
-    { name: "Utilities" },
-    { name: "Groceries" },
-    { name: "Transportation" },
-    { name: "HealthCare" },
-    { name: "Entertainment" },
-    { name: "Clothing" },
-    { name: "Education" },
-    { name: "Miscellaneous" }
+    { id: 1, name: "Rent" },
+    { id: 2, name: "Utilities" },
+    { id: 3, name: "Groceries" },
+    { id: 4, name: "Transportation" },
+    { id: 5, name: "HealthCare" },
+    { id: 6, name: "Entertainment" },
+    { id: 7, name: "Clothing" },
+    { id: 8, name: "Education" },
+    { id: 9, name: "Miscellaneous" }
   ];
 
+  selectedDate: Date = new Date();
 
   get reversedExpenses(): Expense[] {
     return this.expenses.slice().reverse();
   }
   openAddExpenseModal() {
-    // Logic to open a modal to add an expense
     this.showAddExpenseModal = true;
   }
-  addExpense(): void {
-    const newId = this.expenses.length + 1;
-    const expenseToAdd = { ...this.newExpense, id: newId };
-    this.expenses.push(expenseToAdd);
-    this.showAddExpenseModal = false;
-    this.newExpense = { id: 0, name: '', date: '', category: '', amount: 0, recurring: false };
+  openEditExpenseModal() {
+    this.showEditExpenseModal = true;
   }
+  addExpense(): void {
+    if (this.newExpense.name && this.newExpense.date && this.newExpense.category && this.newExpense.amount) {
+      this.allFilled = true;
+      const formattedDate = this.formatDate(this.newExpense.date);
+      const newId = this.expenses.length + 1;
+      const expenseToAdd = {
+        id: newId,
+        name: this.newExpense.name,
+        date: String(formattedDate), // Ensure it's properly assigned
+        category: String(this.expenseCategories[this.newExpense.category - 1].name), // Ensure it's properly assigned
+        amount: this.newExpense.amount,
+        recurring: this.newExpense.recurring
+      };
+      console.log(expenseToAdd); // Check if the values are assigned correctly
+
+      this.expenses.push(expenseToAdd);
+      this.showAddExpenseModal = false;
+      this.newExpense = { id: 0, name: '', date: new Date(), category: 0, amount: 0, recurring: false };
+    } else {
+      this.allFilled = false;
+    }
+
+  }
+  formatDate(inputDate: Date): string {
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, '0');
+    const day = String(inputDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
 
 
 
@@ -97,11 +133,22 @@ export class TransactionsPageComponent {
 
 
   editExpense(expense: Expense) {
-    if (expense) {
-      // Logic to edit an existing expense
-    }
-  }
+    this.selectedExpense = { ...expense }; // Create a copy of the selected expense
+    this.showEditExpenseModal = true; // Open the edit modal
 
+  }
+  saveExpense() {
+    if (this.selectedExpense) {
+      // Find the index of the selected expense in the expenses array
+      const index = this.expenses.findIndex(expense => expense.id === this.selectedExpense!.id);
+      if (index !== -1) {
+        // Update the expense in the expenses array
+        this.expenses[index] = { ...this.selectedExpense };
+        console.log('Expense updated:', this.selectedExpense);
+      }
+    }
+    this.showEditExpenseModal = false; // Close the edit modal  }
+  }
   deleteExpense(expense: Expense) {
     if (expense) {
       this.expenses = this.expenses.filter(exp => exp.id !== expense.id);
@@ -114,5 +161,28 @@ export class TransactionsPageComponent {
       this.dt.filterGlobal(inputElement.value, 'contains');
     }
   }
+  filterDate(event: any) {
 
+    if (this.selectedDate instanceof Date) {
+      const selectedYear = this.selectedDate.getFullYear();
+      const selectedMonth = this.selectedDate.getMonth() + 1;
+
+      // Construct the filter value to match the format of your date column in the table
+      const filterValue = `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}`;
+
+      console.log('Constructed filter value:', filterValue); // Log the constructed filter value
+
+      // Apply filter to the 'date' column of the table
+      if (this.dt) {
+        this.dt.filter(filterValue, 'date', 'contains');
+      }
+    } else {
+      console.error("Invalid date format.");
+    }
+  }
+  onClearDate() {
+    if (this.dt) {
+      this.dt.clear();
+    }
+  }
 }
