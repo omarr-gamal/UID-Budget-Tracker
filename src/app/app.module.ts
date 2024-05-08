@@ -49,6 +49,7 @@ import { DashboardExpensesBrokenDownComponent } from './components/dashboard-exp
 import { CustomPanelComponent } from './components/custom-panel/custom-panel.component';
 import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
 import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 
 
@@ -66,7 +67,8 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
     DashboardExpensesBrokenDownComponent,
     CustomPanelComponent,
     PageWrapperComponent,
-    DashboardMonthlyChartComponent
+    DashboardMonthlyChartComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
