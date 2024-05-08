@@ -22,7 +22,6 @@ import { HomeComponent } from './pages/home/home.component';
 //primeng components
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -31,9 +30,6 @@ import { RatingModule } from 'primeng/rating';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChipModule } from 'primeng/chip';
-import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
-import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
-import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -95,7 +91,7 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
     ChipModule,
     DialogModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
     PanelModule,
     CardModule,
     FieldsetModule,
