@@ -1,6 +1,11 @@
 <p-menubar [model]="items">
     <ng-template pTemplate="start">
-        <a href="#" class="brand-logo">Budgy</a>
+        <a href="/" style="text-decoration: none; color: inherit;">
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+                <img src="assets/logo.png" alt="Budgy logo" />
+                <h4>Budgy</h4>
+            </div>
+        </a>
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!user;">
