@@ -50,6 +50,7 @@ import { CustomPanelComponent } from './components/custom-panel/custom-panel.com
 import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
 import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     CustomPanelComponent,
     PageWrapperComponent,
     DashboardMonthlyChartComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    SignupPageComponent
   ],
   imports: [
     BrowserModule,
