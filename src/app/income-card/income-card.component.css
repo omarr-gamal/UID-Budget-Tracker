@@ -11,8 +11,6 @@
   .p-card-subtitle {
     color: black;
   }
-  .p-card-body {
-  }
 
   .p-card-footer {
     margin-top: -20px;
@@ -34,7 +32,7 @@
   }
 
   .description {
-    height: 60px; /* Adjust this value to set the minimum height */
-    overflow-y: auto; /* Add a scrollbar if the content exceeds the minimum height */
+    height: 60px;
+    overflow-y: auto;
   }
 }
