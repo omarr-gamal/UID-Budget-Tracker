@@ -1,0 +1,11 @@
+<app-page-wrapper>
+  <div class="grid" *ngIf="monthlyIncomes.length; else noIncomes">
+    <div class="col" *ngFor="let item of monthlyIncomes">
+      <app-income-card [monthlyIncome]="item"></app-income-card>
+    </div>
+  </div>
+  <ng-template #noIncomes>
+    <p>No monthly incomes yet</p>
+  </ng-template>
+  <app-add-income-dialog></app-add-income-dialog>
+</app-page-wrapper>
