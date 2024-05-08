@@ -21,7 +21,7 @@ export class AddIncomeDialogComponent {
     this.incomeForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      amount: ['', Validators.required],
+      amount: [null, Validators.required],
       incomeCategory: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', [Validators.required, this.validateEndDate.bind(this)]],

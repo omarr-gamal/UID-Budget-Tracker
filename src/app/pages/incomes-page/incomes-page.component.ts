@@ -11,9 +11,7 @@ import { UserIncomesService } from '../../services/user-incomes.service';
 export class IncomesPageComponent implements OnInit {
   monthlyIncomes: MonthlyIncome[] = [];
 
-  constructor(private userIncomesService: UserIncomesService) {
-    console.log('IncomesPageComponent created');
-  }
+  constructor(private userIncomesService: UserIncomesService) {}
 
   ngOnInit() {
     console.log('Fetching incomes');

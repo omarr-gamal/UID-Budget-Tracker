@@ -1,32 +1,66 @@
 <p-card
-  [header]="monthlyIncome.name"
-  [subheader]="monthlyIncome.category"
+  [header]="monthlyIncome.title"
+  [subheader]="monthlyIncome.incomeCategory"
   [style]="{ width: '420px' }"
   class="my-card"
 >
-  <p class="description">{{ monthlyIncome.description }}</p>
+  <p class="description" *ngIf="!editMode">{{ monthlyIncome.description }}</p>
+  <input
+    type="text"
+    class="description"
+    *ngIf="editMode"
+    [(ngModel)]="monthlyIncome.description"
+  />
   <p-divider />
   <div class="income-display">
     <div>Monthly Income:</div>
-    <div class="bold-text">${{ monthlyIncome.amount }}/Month</div>
+    <div class="bold-text" *ngIf="!editMode">
+      ${{ monthlyIncome.amount }}/Month
+    </div>
+    <input
+      inputId="amount"
+      mode="currency"
+      currency="USD"
+      class="bold-text"
+      maxFractionDigits="0"
+      *ngIf="editMode"
+      [(ngModel)]="monthlyIncome.amount"
+    />
   </div>
   <div class="income-display">
     <div>Start Date:</div>
-    <div>
-      {{ monthlyIncome.startDate | date : "MM/dd/yyyy" }}
+    <div *ngIf="!editMode">
+      {{ monthlyIncome.startDate | date : "dd/MM/yyyy" }}
     </div>
+    <input type="date" *ngIf="editMode" [(ngModel)]="monthlyIncome.startDate" />
   </div>
   <div class="income-display">
     <div>End Date:</div>
-    <div>
-      {{ monthlyIncome.endDate | date : "MM/dd/yyyy" }}
+    <div *ngIf="!editMode">
+      {{ monthlyIncome.endDate | date : "dd/MM/yyyy" }}
     </div>
+    <input type="date" *ngIf="editMode" [(ngModel)]="monthlyIncome.endDate" />
   </div>
   <ng-template pTemplate="footer">
     <p-divider />
     <div class="card-buttons">
-      <p-button icon="pi pi-pencil" severity="secondary"></p-button>
-      <p-button icon="pi pi-times" severity="danger"></p-button>
+      <p-button
+        *ngIf="!editMode"
+        icon="pi pi-pencil"
+        (click)="toggleEditMode()"
+        severity="secondary"
+      ></p-button>
+      <p-button
+        *ngIf="editMode"
+        icon="pi pi-check"
+        (click)="saveChanges()"
+        severity="success"
+      ></p-button>
+      <p-button
+        icon="pi pi-times"
+        (click)="cancelEdit()"
+        severity="danger"
+      ></p-button>
     </div>
   </ng-template>
 </p-card>
