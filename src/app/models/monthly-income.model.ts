@@ -1,5 +1,8 @@
 export interface MonthlyIncome {
-    name: string;
-    description: string;
-    amount: number;
+  name: string;
+  description: string;
+  amount: number;
+  category: string;
+  startDate: Date;
+  endDate: Date;
 }

@@ -15,6 +15,9 @@ export class IncomeCardComponent {
       name: 'Income Name',
       description: 'Income Description',
       amount: 0,
+      category: 'Income Category',
+      startDate: new Date(),
+      endDate: new Date(),
     }; // Initialize with default values
   }
 }

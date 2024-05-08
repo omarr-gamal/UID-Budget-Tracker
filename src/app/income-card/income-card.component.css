@@ -14,6 +14,10 @@
   .p-card-body {
   }
 
+  .p-card-footer {
+    margin-top: -20px;
+  }
+
   .card-buttons {
     display: flex;
     justify-content: space-between;
@@ -22,9 +26,15 @@
   .income-display {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
   }
 
   .bold-text {
     font-weight: bold;
+  }
+
+  .description {
+    height: 60px; /* Adjust this value to set the minimum height */
+    overflow-y: auto; /* Add a scrollbar if the content exceeds the minimum height */
   }
 }

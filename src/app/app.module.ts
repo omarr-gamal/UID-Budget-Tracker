@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -40,7 +40,15 @@ import { CustomPanelComponent } from './components/custom-panel/custom-panel.com
 import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
 import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
 import { IncomeCardComponent } from './income-card/income-card.component';
-import { IncomesPageComponent } from './incomes-page/incomes-page.component';
+import { IncomesPageComponent } from './pages/incomes-page/incomes-page.component';
+import { DialogModule } from 'primeng/dialog';
+import { AddIncomeDialogComponent } from './components/add-income-dialog/add-income-dialog.component';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -58,6 +66,7 @@ import { IncomesPageComponent } from './incomes-page/incomes-page.component';
     CustomPanelComponent,
     PageWrapperComponent,
     DashboardMonthlyChartComponent,
+    AddIncomeDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +74,7 @@ import { IncomesPageComponent } from './incomes-page/incomes-page.component';
     AppRoutingModule,
     FormsModule,
     FontAwesomeModule,
+    ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
@@ -80,6 +90,13 @@ import { IncomesPageComponent } from './incomes-page/incomes-page.component';
     FieldsetModule,
     SplitterModule,
     ChartModule,
+    DialogModule,
+    InputNumberModule,
+    InputTextModule,
+    FloatLabelModule,
+    CalendarModule,
+    InputTextareaModule,
+    DropdownModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],

@@ -7,7 +7,7 @@ import { TransactionsPageComponent } from './pages/transactions-page/transaction
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
-import { IncomesPageComponent } from './incomes-page/incomes-page.component';
+import { IncomesPageComponent } from './pages/incomes-page/incomes-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
