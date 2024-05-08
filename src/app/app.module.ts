@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AngularFireModule } from '@angular/fire/compat'
@@ -49,8 +49,8 @@ import { DashboardExpensesBrokenDownComponent } from './components/dashboard-exp
 import { CustomPanelComponent } from './components/custom-panel/custom-panel.component';
 import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
 import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-chart/dashboard-monthly-chart.component';
-
-
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 
 @NgModule({
@@ -66,7 +66,9 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
     DashboardExpensesBrokenDownComponent,
     CustomPanelComponent,
     PageWrapperComponent,
-    DashboardMonthlyChartComponent
+    DashboardMonthlyChartComponent,
+    LoginPageComponent,
+    SignupPageComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +79,7 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    ReactiveFormsModule,
     //primeng
     MenubarModule,
     ButtonModule,

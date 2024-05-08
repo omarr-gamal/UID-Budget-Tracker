@@ -7,10 +7,14 @@ import { TransactionsPageComponent } from './pages/transactions-page/transaction
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'login', component: LoginPageComponent },
+  { path: 'signup', component: SignupPageComponent },
   { path: 'transactions', component: TransactionsPageComponent, canActivate: [authGuard] },
   { path: 'budgets', component: BudgetsPageComponent },
   { path: 'reports', component: ReportsPageComponent },

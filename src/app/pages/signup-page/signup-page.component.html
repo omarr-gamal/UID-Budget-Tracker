@@ -1,0 +1,27 @@
+<p-card class="flex justify-content-center">
+    <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()">
+        <div class="field">
+            <label class="label">Name</label>
+            <input type="text" pInputText placeholder="name" formControlName="displayName" [class.invalid]="isInvalid('displayName')">
+            <small class="p-error block" *ngIf="isInvalid('displayName')">{{ getErrorMessage('displayName') }}</small>
+        </div>
+        <div class="field">
+            <label class="label">Email address</label>
+            <input type="text" pInputText placeholder="email address" formControlName="email" [class.invalid]="isInvalid('email')">
+            <small class="p-error block" *ngIf="isInvalid('email')">{{ getErrorMessage('email') }}</small>
+        </div>
+        <div class="field">
+            <label for="password" class="block">Password</label>
+            <input type="password" pInputText placeholder="password" formControlName="password" [class.invalid]="isInvalid('password')">
+            <small class="p-error block" *ngIf="isInvalid('password')">{{ getErrorMessage('password') }}</small>
+        </div>
+        <button type="submit" pButton label="Sign up" [disabled]="signupForm.invalid"></button>
+    </form>
+</p-card>
+
+<p-dialog header="Oh no!" [modal]="true" [(visible)]="signupError" [style]="{ width: '25rem' }">
+    <p>{{ signupErrorMessage }}</p>
+    <div class="flex justify-content-center">
+        <p-button label="Okay" (click)="signupError = false; signupForm.reset()" />
+    </div>
+</p-dialog>
