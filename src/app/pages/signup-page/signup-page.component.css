@@ -2,13 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Center align the card */
     height: 100vh;
-
-    /* Set desired height */
     width: 100%;
-    /* Set desired width */
-     
 }
 
 .form {
