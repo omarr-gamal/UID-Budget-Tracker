@@ -1,4 +1,4 @@
-<p-menubar [model]="items">
+<p-menubar [model]="items" (click) = "activeMenu($event)">
   <ng-template pTemplate="start">
     <a href="/" style="text-decoration: none; color: inherit">
       <div style="display: flex; align-items: center; margin-right: 10px">
