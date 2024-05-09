@@ -16,7 +16,7 @@
     </p-panel>
     <div>
         <p-card *ngFor="let budget of budgets" [header]="budget.name">
-            <div class="deletebtn" (click)="deleteBudget(budget.id)">
+            <div class="deletebtn" (click)="deleteBudget(budget.id!)">
             <p-button icon="pi pi-times" [rounded]="true" severity="danger" class="delete"></p-button>
             </div>
             <p-accordion>
