@@ -1,4 +1,5 @@
 export interface Budget {
+    id?: string;
     progress?: number;
     name: string;
     description: string;
