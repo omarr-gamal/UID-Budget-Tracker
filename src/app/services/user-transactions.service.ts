@@ -125,8 +125,10 @@ export class UserTransactionsService {
         const transactions = this.afs.collection(`users/${userId}/transactions`);
 
         var newBalance = user.mainWalletAmount;
-        if (transaction.transactionType === "Income") newBalance += transaction.amount;
-        else newBalance -= transaction.amount;
+        if (!transaction.isRecurring) {
+          if (transaction.transactionType === "Income") newBalance += transaction.amount;
+          else newBalance -= transaction.amount;
+        }
 
         const usersCollection = this.afs.collection<User>(`users`);
         usersCollection.doc(user.uid).update({"mainWalletAmount": newBalance})
