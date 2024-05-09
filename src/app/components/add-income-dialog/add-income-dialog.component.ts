@@ -42,7 +42,7 @@ export class AddIncomeDialogComponent {
         console.error('Error saving income', error);
       }
     );
-    // this.display = false;
+    this.display = false;
   }
 
   // Custom validator function for end date validation
