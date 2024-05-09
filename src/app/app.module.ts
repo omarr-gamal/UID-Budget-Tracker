@@ -62,6 +62,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { PaginatorModule } from 'primeng/paginator';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
 import {
   DxDataGridModule,
   DxDataGridTypes,
@@ -91,6 +95,7 @@ import { IncomeReportComponent } from './components/income-report/income-report.
     IncomeReportComponent,
   ],
   imports: [
+    AccordionModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -100,6 +105,7 @@ import { IncomeReportComponent } from './components/income-report/income-report.
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    PaginatorModule,
     ReactiveFormsModule,
     //primeng
     MenubarModule,
@@ -124,6 +130,8 @@ import { IncomeReportComponent } from './components/income-report/income-report.
     CardModule,
     FieldsetModule,
     SplitterModule,
+    SpeedDialModule,
+    SliderModule,
     ChartModule,
     TableModule,
     InputIconModule,
