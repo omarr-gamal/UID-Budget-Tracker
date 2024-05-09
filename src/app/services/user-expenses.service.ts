@@ -4,9 +4,9 @@ import { AuthService } from './auth.service';
 import { MonthlyExpense } from '../models/monthly-expense.model';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { 
+import {
   Observable, from,
-  map, switchMap, take 
+  map, switchMap, take
 } from 'rxjs';
 
 
@@ -29,7 +29,7 @@ export class UserExpensesService {
             observer.error('User not authenticated');
           });
         }
-        
+
         const userId = user.uid;
         const expenses = this.afs.collection(`users/${userId}/monthly_expenses`);
         return from(expenses.add(MonthlyExpense)).pipe(

@@ -24,7 +24,8 @@ export class UserTransactionsService {
     { id: 7, name: "Clothing", color: "#4D5360" },
     { id: 8, name: "Education", color: "#B2912F" },
     { id: 9, name: "Utilities", color: "#36ebc4" },
-    { id: 10, name: "Miscellaneous", color: "#EBCCD1" }
+    { id: 10, name: "Miscellaneous", color: "#EBCCD1" },
+    { id: 11, name: "Monthly Expenses", color: "#00C853" }
   ];
 
 
