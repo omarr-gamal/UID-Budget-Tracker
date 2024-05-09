@@ -62,6 +62,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { PaginatorModule } from 'primeng/paginator';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
+
 import {
   DxDataGridModule,
   DxDataGridTypes,
@@ -93,6 +98,7 @@ import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.
     SavingGoalsPageComponent,
   ],
   imports: [
+    AccordionModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -102,6 +108,7 @@ import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    PaginatorModule,
     ReactiveFormsModule,
     //primeng
     MenubarModule,
@@ -126,6 +133,8 @@ import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.
     CardModule,
     FieldsetModule,
     SplitterModule,
+    SpeedDialModule,
+    SliderModule,
     ChartModule,
     TableModule,
     InputIconModule,
