@@ -2,7 +2,7 @@
 <app-custom-panel title="Total expenses" class="expenses-break-down">
     <div class="expenses-break-down-container">
         <p-chart type="doughnut" [data]="data"></p-chart>
-        <p-table [value]="expenses">
+        <p-table [value]="tableData">
             <ng-template pTemplate="body" let-expense>
                 <tr>
                     <td><span class="color-circle" [ngStyle]="{'background-color': getColor(expense.category)}"></span>

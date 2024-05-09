@@ -55,7 +55,7 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
-import { IncomeCardComponent } from './income-card/income-card.component';
+import { IncomeCardComponent } from './components/income-card/income-card.component';
 import { IncomesPageComponent } from './pages/incomes-page/incomes-page.component';
 import { AddIncomeDialogComponent } from './components/add-income-dialog/add-income-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -66,6 +66,12 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { PaginatorModule } from 'primeng/paginator';
 import { AccordionModule } from 'primeng/accordion';
 import { SliderModule } from 'primeng/slider';
+import {
+  DxDataGridModule,
+  DxDataGridTypes,
+} from 'devextreme-angular/ui/data-grid';
+import { DxBulletModule, DxTemplateModule } from 'devextreme-angular';
+import { IncomeReportComponent } from './components/income-report/income-report.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +92,7 @@ import { SliderModule } from 'primeng/slider';
     LoginPageComponent,
     SignupPageComponent,
     AddIncomeDialogComponent,
+    IncomeReportComponent,
   ],
   imports: [
     AccordionModule,
@@ -138,6 +145,10 @@ import { SliderModule } from 'primeng/slider';
     DropdownModule,
     ConfirmDialogModule,
     ToastModule,
+    DxDataGridModule,
+    DxBulletModule,
+    DxTemplateModule,
+    PanelModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
