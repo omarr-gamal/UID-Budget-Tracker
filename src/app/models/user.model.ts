@@ -5,6 +5,7 @@ export interface User {
     photoURL?: string;
     mainWalletAmount: number;
     savingWalletAmount: number;
+    joinedAt?: string;
 }
 
 export const defaultUser: User = {
@@ -13,5 +14,6 @@ export const defaultUser: User = {
     displayName: '',
     photoURL: 'https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg', 
     mainWalletAmount: 0,
-    savingWalletAmount: 0
+    savingWalletAmount: 0,
+    joinedAt: (new Date()).toLocaleString()
 };

@@ -31,15 +31,24 @@ export class AuthService {
     );
   }
 
-  async googleSignin() {
+  async googleSignin(newUser: Boolean) {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result) => {
-      const user = {
-        ...defaultUser,
-        uid: result.user.uid,
-        displayName: result.user.displayName,
-        email: result.user.email,
+      var user;
+      if (newUser) {
+        user = {
+          ...defaultUser,
+          uid: result.user.uid,
+          displayName: result.user.displayName,
+          email: result.user.email,
+        }
+      } else {
+        user = {
+          uid: result.user.uid,
+          displayName: result.user.displayName,
+          email: result.user.email,
+        }
       }
       return this.updateUserData(user as User);
         // console.log(user)

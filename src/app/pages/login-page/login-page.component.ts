@@ -46,7 +46,7 @@ export class LoginPageComponent {
   }
 
   googleSignin() {
-    this.auth.googleSignin()
+    this.auth.googleSignin(false)
     this.auth.user$.subscribe((user) => {
       if (user) {
         this.router.navigate(['/']);
