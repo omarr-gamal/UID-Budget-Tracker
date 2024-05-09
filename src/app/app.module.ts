@@ -62,6 +62,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { PaginatorModule } from 'primeng/paginator';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -84,6 +88,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     AddIncomeDialogComponent,
   ],
   imports: [
+    AccordionModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -93,6 +98,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    PaginatorModule,
     ReactiveFormsModule,
     //primeng
     MenubarModule,
@@ -117,6 +123,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     CardModule,
     FieldsetModule,
     SplitterModule,
+    SpeedDialModule,
+    SliderModule,
     ChartModule,
     TableModule,
     InputIconModule,
