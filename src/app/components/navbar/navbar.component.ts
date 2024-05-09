@@ -12,7 +12,7 @@ export class NavbarComponent {
   items: MenuItem[] = [];
   user: any;
 
-  constructor(public auth: AuthService, private router: Router) { }
+  constructor(public auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.auth.user$.subscribe((user) => {
@@ -21,18 +21,17 @@ export class NavbarComponent {
     });
   }
   activeMenu(event: any) {
-
     let node;
-    if (event.target.tagName === "A") {
+    if (event.target.tagName === 'A') {
       node = event.target;
     } else {
       node = event.target.parentNode;
     }
-    let menuitem = document.getElementsByClassName("ui-menuitem-link");
+    let menuitem = document.getElementsByClassName('ui-menuitem-link');
     for (let i = 0; i < menuitem.length; i++) {
-      menuitem[i].classList.remove("active");
+      menuitem[i].classList.remove('active');
     }
-    node.classList.add("active")
+    node.classList.add('active');
   }
 
   updateMenuItems() {
@@ -59,7 +58,7 @@ export class NavbarComponent {
       },
       {
         label: 'Incomes',
-        icon: 'pi pi-file',
+        icon: 'pi pi-wallet',
         routerLink: ['/incomes'],
       },
     ];
