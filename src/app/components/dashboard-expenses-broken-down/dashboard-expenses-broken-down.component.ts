@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserTransactionsService } from '../../services/user-transactions.service';
 import { UserExpensesService } from '../../services/user-expenses.service';
-import { Transaction } from '../../models/transaction.model'; // Assuming this model exists
-import { MonthlyExpense } from '../../models/monthly-expense.model'; // Assuming this model exists
+import { Transaction } from '../../models/transaction.model';
+import { MonthlyExpense } from '../../models/monthly-expense.model';
 
 @Component({
   selector: 'app-dashboard-expenses-broken-down',
@@ -11,6 +11,7 @@ import { MonthlyExpense } from '../../models/monthly-expense.model'; // Assuming
 })
 export class DashboardExpensesBrokenDownComponent implements OnInit {
   data: any;
+  tableData: { category: string, amount: number, percentage: string }[] = [];
   expenses: Transaction[] = [];
   totalExpenses: number = 0;
   expenseCategories: any[] = [];
@@ -29,6 +30,7 @@ export class DashboardExpensesBrokenDownComponent implements OnInit {
     this.userTransactionsService.getExpenseTransactions().subscribe({
       next: (expenses: Transaction[]) => {
         this.expenses = expenses;
+        this.totalExpenses = expenses.reduce((sum, current) => sum + current.amount, 0);
         this.fetchMonthlyExpenses();
       },
       error: error => console.error('Error fetching expense transactions:', error)
@@ -56,20 +58,48 @@ export class DashboardExpensesBrokenDownComponent implements OnInit {
       transactionType: 'Expense'
     }));
 
-    // Merge and update chart
     this.expenses = [...this.expenses, ...monthlyExpenseAsTransactions];
+    this.totalExpenses += monthlyExpenseAsTransactions.reduce((sum, current) => sum + current.amount, 0);
+    this.assignPercentages();
     this.updateChartData();
   }
 
+  assignPercentages() {
+    this.expenses = this.expenses.map(expense => ({
+      ...expense,
+      percentage: ((expense.amount / this.totalExpenses) * 100).toFixed(2) + '%'
+    }));
+  }
+  prepareTableData(aggregatedExpenses: Map<string, number>) {
+    this.tableData = Array.from(aggregatedExpenses).map(([category, amount]) => ({
+      category,
+      amount,
+      percentage: ((amount / this.totalExpenses) * 100).toFixed(2) + '%'
+    }));
+  }
+
   updateChartData() {
+    const aggregatedExpenses = this.aggregateExpensesByCategory();
+    this.prepareTableData(aggregatedExpenses);
     this.data = {
-      labels: this.expenses.map(expense => expense.category),
+      labels: Array.from(aggregatedExpenses.keys()),
       datasets: [{
-        data: this.expenses.map(expense => expense.amount),
-        backgroundColor: this.expenses.map(expense => this.getColor(expense.category ?? 'no category')),
-        hoverBackgroundColor: this.expenses.map(expense => this.getHoverColor(expense.category ?? 'no category'))
+        data: Array.from(aggregatedExpenses.values()),
+        backgroundColor: Array.from(aggregatedExpenses.keys()).map(category => this.getColor(category)),
+        hoverBackgroundColor: Array.from(aggregatedExpenses.keys()).map(category => this.getHoverColor(category))
       }]
     };
+  }
+
+
+  aggregateExpensesByCategory(): Map<string, number> {
+    const aggregationMap = new Map<string, number>();
+    for (const expense of this.expenses) {
+      const category = expense.category || 'Unknown Category';
+      const currentAmount = aggregationMap.get(category) || 0;
+      aggregationMap.set(category, currentAmount + expense.amount);
+    }
+    return aggregationMap;
   }
 
   getColor(category: string): string {
@@ -78,6 +108,6 @@ export class DashboardExpensesBrokenDownComponent implements OnInit {
   }
 
   getHoverColor(category: string): string {
-    return this.getColor(category) + 'cc'; // Make hover color slightly transparent
+    return this.getColor(category) + 'cc';
   }
 }
