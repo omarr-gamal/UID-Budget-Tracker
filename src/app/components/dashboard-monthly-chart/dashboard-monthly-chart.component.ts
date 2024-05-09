@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { BalanceVSTime, UserTransactionsService } from '../../services/user-transactions.service';
-
+import { SavingGoalService } from '../../services/saving-goal.service';
 @Component({
   selector: 'app-dashboard-monthly-chart',
   templateUrl: './dashboard-monthly-chart.component.html',
@@ -14,7 +14,11 @@ export class DashboardMonthlyChartComponent implements OnInit {
   options: any;
   showPieChart: boolean = false;
 
-  constructor(private authService: AuthService, private userTransactionsService: UserTransactionsService) { }
+  constructor(
+    private authService: AuthService,
+    private userTransactionsService: UserTransactionsService,
+    private savingGoalService: SavingGoalService
+  ) { }
 
   ngOnInit() {
     this.initPieChart();
@@ -22,8 +26,8 @@ export class DashboardMonthlyChartComponent implements OnInit {
       this.updateLineChartData(data);
       console.log(data);
     });
-
   }
+
   updateLineChartData(data: BalanceVSTime[]) {
     this.balanceOverTime = {
       labels: data.map(d => d.date),
@@ -50,10 +54,12 @@ export class DashboardMonthlyChartComponent implements OnInit {
       }
     };
   }
+
   initPieChart() {
     this.authService.user$.subscribe(user => {
-      if (user && (user.mainWalletAmount > 0 || user.savingWalletAmount > 0)) {
-        this.updatePieChartData(user.mainWalletAmount, user.savingWalletAmount);
+      if (user) {
+        let savingBalance = this.savingGoalService.getBalance();
+        this.updatePieChartData(user.mainWalletAmount, savingBalance);
         this.showPieChart = true;
       } else {
         this.showPieChart = false;

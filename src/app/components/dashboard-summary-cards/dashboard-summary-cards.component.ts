@@ -4,6 +4,7 @@ import { UserTransactionsService } from '../../services/user-transactions.servic
 import { MonthlyIncome } from '../../models/monthly-income.model';
 import { Transaction } from '../../models/transaction.model';
 import { AuthService } from '../../services/auth.service';
+import { SavingGoalService } from '../../services/saving-goal.service'; // Import SavingGoalService
 
 @Component({
   selector: 'app-dashboard-summary-cards',
@@ -15,9 +16,14 @@ export class DashboardSummaryCardsComponent implements OnInit {
   expensesAmount: number = 0;
   incomeAmount: number = 0;
   balance: number = 0;
-  savings: number = 0;
+  savings: number = 0; // This will now be managed by SavingGoalService
 
-  constructor(private userIncomeService: UserIncomesService, private userTransactionsService: UserTransactionsService, private authService: AuthService) { }
+  constructor(
+    private userIncomeService: UserIncomesService,
+    private userTransactionsService: UserTransactionsService,
+    private authService: AuthService,
+    private savingGoalService: SavingGoalService // Inject SavingGoalService
+  ) { }
 
   ngOnInit() {
     this.userIncomeService.getAllMonthlyIncomes().subscribe({
@@ -28,7 +34,6 @@ export class DashboardSummaryCardsComponent implements OnInit {
         console.error('Error fetching incomes', error);
         this.monthlyIncomeAmount = 0;
       }
-
     });
 
     this.userTransactionsService.getAllTransactions().subscribe({
@@ -36,7 +41,9 @@ export class DashboardSummaryCardsComponent implements OnInit {
         this.expensesAmount = transactions
           .filter(t => t.transactionType === 'Expense')
           .reduce((sum, current) => sum + current.amount, 0);
-        this.incomeAmount = transactions.filter(t => t.transactionType === "Income").reduce((sum, current) => sum + current.amount, 0)
+        this.incomeAmount = transactions
+          .filter(t => t.transactionType === "Income")
+          .reduce((sum, current) => sum + current.amount, 0);
       },
       error: (error) => {
         console.error('Error fetching transactions', error);
@@ -47,12 +54,11 @@ export class DashboardSummaryCardsComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       if (user) {
         this.balance = user.mainWalletAmount;
-        this.savings = user.savingWalletAmount;
       } else {
         this.balance = 0;
-        this.savings = 0;
       }
     });
 
+    this.savings = this.savingGoalService.getBalance();
   }
 }
