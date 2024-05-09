@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { User } from '../models/user.model';
 
-interface BalanceVSTime {
+export interface BalanceVSTime {
   date: string;
   balance: number;
 }
@@ -44,20 +44,20 @@ export class UserTransactionsService {
   }
 
   // getBalanceVSTime() {
-    // first get all user transactions then loop over the transactions and 
-    // generate the balance versus time like this 
-    // [
-    //   { date: '2021-01-01', balance: 200 },
-    //   { date: '2021-01-02', balance: 450 },
-    //   { date: '2021-01-05', balance: 320 },
-    //   { date: '2021-01-21', balance: 1150 },
-    //   { date: '2021-02-02', balance: 80 },
-    // ];
+  // first get all user transactions then loop over the transactions and 
+  // generate the balance versus time like this 
+  // [
+  //   { date: '2021-01-01', balance: 200 },
+  //   { date: '2021-01-02', balance: 450 },
+  //   { date: '2021-01-05', balance: 320 },
+  //   { date: '2021-01-21', balance: 1150 },
+  //   { date: '2021-02-02', balance: 80 },
+  // ];
   // }
 
   private _formatTransactions(transactions: Transaction[]): Transaction[] {
     return transactions.map(transaction => {
-      const t = { 
+      const t = {
         ...transaction,
         date: (transaction.date as any).toDate(),
         name: 'a7a',
@@ -83,7 +83,7 @@ export class UserTransactionsService {
         }
 
         console.log(user!.joinedAt!)
-      
+
         // Calculate balance versus time
         let balance = 0;
         const initialDate: Date = new Date(user!.joinedAt!); // Use joinedAt or current date as initial date
@@ -131,7 +131,7 @@ export class UserTransactionsService {
         }
 
         const usersCollection = this.afs.collection<User>(`users`);
-        usersCollection.doc(user.uid).update({"mainWalletAmount": newBalance})
+        usersCollection.doc(user.uid).update({ "mainWalletAmount": newBalance })
 
         return from(transactions.add(transaction)).pipe(
           map((docRef) => {

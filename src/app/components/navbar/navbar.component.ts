@@ -48,19 +48,19 @@ export class NavbarComponent {
         routerLink: ['/transactions'],
       },
       {
+        label: 'Income',
+        icon: 'pi pi-building-columns',
+        routerLink: ['/incomes'],
+      },
+      {
         label: 'Budgets',
         icon: 'pi pi-briefcase',
         routerLink: ['/budgets'],
       },
       {
-        label: 'Reports',
-        icon: 'pi pi-file',
-        routerLink: ['/reports'],
-      },
-      {
-        label: 'Incomes',
-        icon: 'pi pi-file',
-        routerLink: ['/incomes'],
+        label: 'Saving goals',
+        icon: 'fa-solid fa-piggy-bank',
+        routerLink: ['/saving-goals'],
       },
     ];
 

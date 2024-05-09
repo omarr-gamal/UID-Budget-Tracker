@@ -68,6 +68,7 @@ import {
 } from 'devextreme-angular/ui/data-grid';
 import { DxBulletModule, DxTemplateModule } from 'devextreme-angular';
 import { IncomeReportComponent } from './components/income-report/income-report.component';
+import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { IncomeReportComponent } from './components/income-report/income-report.
     SignupPageComponent,
     AddIncomeDialogComponent,
     IncomeReportComponent,
+    SavingGoalsPageComponent,
   ],
   imports: [
     BrowserModule,

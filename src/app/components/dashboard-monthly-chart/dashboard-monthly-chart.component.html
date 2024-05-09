@@ -6,5 +6,6 @@
         </ng-container>
     </app-custom-panel>
     <app-custom-panel title="Income and Expenses">
-        <p-chart type="line" width="300" height="300" [data]="incomeExpenseChartData"></p-chart>
+        <p-chart type="line" [data]="balanceOverTime" width="300" height="300" [options]="options"></p-chart>
+
     </app-custom-panel>

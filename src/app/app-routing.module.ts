@@ -6,10 +6,10 @@ import { authGuard } from './services/auth.guard';
 import { TransactionsPageComponent } from './pages/transactions-page/transactions-page.component';
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { IncomesPageComponent } from './pages/incomes-page/incomes-page.component';
+import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,9 +21,9 @@ const routes: Routes = [
     component: TransactionsPageComponent,
     canActivate: [authGuard],
   },
-  { path: 'budgets', component: BudgetsPageComponent, canActivate: [authGuard], },
-  { path: 'reports', component: ReportsPageComponent, canActivate: [authGuard], },
   { path: 'incomes', component: IncomesPageComponent, canActivate: [authGuard], },
+  { path: 'budgets', component: BudgetsPageComponent, canActivate: [authGuard], },
+  { path: 'saving-goals', component: SavingGoalsPageComponent, canActivate: [authGuard], },
   { path: '**', redirectTo: '' },
 ];
 
@@ -31,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
