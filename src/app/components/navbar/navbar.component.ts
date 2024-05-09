@@ -24,9 +24,9 @@ export class NavbarComponent {
   updateMenuItems() {
     this.items = [
       {
-        label: 'Home',
+        label: 'Dashboard',
         icon: 'pi pi-home',
-        routerLink: ['/home'],
+        routerLink: ['/dashboard'],
       },
       {
         label: 'Transactions',
