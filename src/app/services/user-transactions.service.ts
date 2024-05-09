@@ -97,7 +97,8 @@ export class UserTransactionsService {
         for (const dateKey of sortedDateKeys) {
           const transactionsOfDay = groupedTransactions[dateKey];
           for (const transaction of transactionsOfDay) {
-            balance += transaction.amount;
+            if (transaction.transactionType === "Expense") balance -= transaction.amount;
+            else balance += transaction.amount;
           }
           balanceVSTime.push({ date: (new Date(dateKey)).toISOString().split('T')[0], balance });
         }
