@@ -4,9 +4,9 @@ import { AuthService } from './auth.service';
 import { SavingGoal } from '../models/saving-goal.model';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { 
+import {
   Observable, combineLatest, forkJoin, from,
-  map, switchMap, take 
+  map, switchMap, take
 } from 'rxjs';
 import { Transaction } from '../models/transaction.model';
 
@@ -15,10 +15,46 @@ import { Transaction } from '../models/transaction.model';
 })
 export class SavingGoalService {
 
+  private savingsBalance: number = 0;
+
   constructor(
     private auth: AuthService,
     private afs: AngularFirestore
-  ) { }
+  ) {
+    this.loadBalance();
+  }
+
+  private loadBalance(): void {
+    const balance = localStorage.getItem('savingsBalance');
+    this.savingsBalance = balance ? parseInt(balance, 10) : 0;
+  }
+
+  addToBalance(amount: number): void {
+    if (amount > 0) {
+      this.savingsBalance += amount;
+      this.saveBalance();
+    }
+  }
+
+  removeFromBalance(amount: number): void {
+    if (amount > 0 && this.savingsBalance >= amount) {
+      this.savingsBalance -= amount;
+      this.saveBalance();
+    } else {
+      console.error('Not enough balance or invalid amount');
+    }
+  }
+
+  private saveBalance(): void {
+    localStorage.setItem('savingsBalance', this.savingsBalance.toString());
+  }
+
+  getBalance(): number {
+    return this.savingsBalance;
+  }
+
+
+
 
   addsavingGoal(savingGoal: SavingGoal): Observable<String> {
     return this.auth.user$.pipe(
@@ -29,7 +65,7 @@ export class SavingGoalService {
             observer.error('User not authenticated');
           });
         }
-        
+
         const userId = user.uid;
         const savingGoals = this.afs.collection(`users/${userId}/savingGoals`);
         return from(savingGoals.add(savingGoal)).pipe(
