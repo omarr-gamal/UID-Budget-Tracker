@@ -55,13 +55,19 @@ import { DashboardMonthlyChartComponent } from './components/dashboard-monthly-c
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
-import { IncomeCardComponent } from './income-card/income-card.component';
+import { IncomeCardComponent } from './components/income-card/income-card.component';
 import { IncomesPageComponent } from './pages/incomes-page/incomes-page.component';
 import { AddIncomeDialogComponent } from './components/add-income-dialog/add-income-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import {
+  DxDataGridModule,
+  DxDataGridTypes,
+} from 'devextreme-angular/ui/data-grid';
+import { DxBulletModule, DxTemplateModule } from 'devextreme-angular';
+import { IncomeReportComponent } from './components/income-report/income-report.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +88,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     LoginPageComponent,
     SignupPageComponent,
     AddIncomeDialogComponent,
+    IncomeReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +137,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     DropdownModule,
     ConfirmDialogModule,
     ToastModule,
+    DxDataGridModule,
+    DxBulletModule,
+    DxTemplateModule,
+    PanelModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
