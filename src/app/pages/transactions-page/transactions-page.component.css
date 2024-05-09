@@ -31,8 +31,12 @@
 }
 
 ::ng-deep .p-datepicker table td {
-  padding: 0.0rem;
+  padding: 0rem;
 }
 ::ng-deep .p-datepicker {
-  padding: 0.0rem;
+  padding: 0rem;
+}
+
+.new-button {
+  margin-right: 20px;
 }
