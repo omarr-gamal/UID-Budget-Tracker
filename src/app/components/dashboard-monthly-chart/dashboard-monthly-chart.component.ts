@@ -1,36 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-dashboard-monthly-chart',
   templateUrl: './dashboard-monthly-chart.component.html',
-  styleUrl: './dashboard-monthly-chart.component.css'
+  styleUrls: ['./dashboard-monthly-chart.component.css']
 })
-export class DashboardMonthlyChartComponent {
-  barLineChartData: any;
+export class DashboardMonthlyChartComponent implements OnInit {
+  pieChartData: any;
   incomeExpenseChartData: any;
+  showPieChart: boolean = false;  // Controls visibility of the pie chart
+
+  constructor(private authService: AuthService) { }
+
   ngOnInit() {
-    this.initBarLineChart();
     this.initIncomeExpenseChart();
+    this.initPieChart();
   }
-  initBarLineChart() {
-    this.barLineChartData = {
-      labels: ['January', 'February', 'March'],
-      datasets: [
-        {
-          type: 'bar',
-          label: 'Balance',
-          backgroundColor: '#42A5F5',
-          data: [500, 600, 800],
-          borderColor: 'white',
-          borderWidth: 2
-        },
-        {
-          type: 'bar',
-          label: 'Savings',
-          backgroundColor: '#9CCC65',
-          data: [300, 400, 450]
-        }
-      ]
+
+  initPieChart() {
+    this.authService.user$.subscribe(user => {
+      if (user && (user.mainWalletAmount > 0 || user.savingWalletAmount > 0)) {
+        this.updatePieChartData(user.mainWalletAmount, user.savingWalletAmount);
+        this.showPieChart = true; 
+      } else {
+        this.showPieChart = false;
+      }
+    });
+  }
+
+  updatePieChartData(mainWalletAmount: number, savingWalletAmount: number) {
+    this.pieChartData = {
+      labels: ['Balance', 'Savings'],
+      datasets: [{
+        data: [mainWalletAmount, savingWalletAmount],
+        backgroundColor: ['#42A5F5', '#9CCC65'],
+        hoverBackgroundColor: ['#64B5F6', '#AED581']
+      }]
     };
   }
 
@@ -55,5 +62,4 @@ export class DashboardMonthlyChartComponent {
       ]
     };
   }
-
 }
