@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
-import { MonthlyIncome } from '../models/monthly-income.model';
+import { MonthlyIncome } from '../../models/monthly-income.model';
 import { FormGroup, FormControl } from '@angular/forms';
-import { UserIncomesService } from '../services/user-incomes.service';
+import { UserIncomesService } from '../../services/user-incomes.service';
 import { ConfirmationService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 
