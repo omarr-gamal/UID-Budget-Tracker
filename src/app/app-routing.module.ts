@@ -13,7 +13,7 @@ import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'dashboard', component: HomeComponent },
+  { path: 'dashboard', component: HomeComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   {

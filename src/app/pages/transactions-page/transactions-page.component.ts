@@ -4,7 +4,8 @@ import { Table } from 'primeng/table';
 import { Transaction } from '../../models/transaction.model';
 import { Observable, Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
-
+import { Budget } from '../../models/budget.model';
+import { UserBudgetsService } from '../../services/user-budgets.service';
 import { UserExpensesService } from '../../services/user-expenses.service';
 import { MonthlyExpense } from '../../models/monthly-expense.model';
 
@@ -16,6 +17,11 @@ import { MonthlyExpense } from '../../models/monthly-expense.model';
 export class TransactionsPageComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
   expenseCategories: any[] = [];
+
+  budgets: Budget[] = [];
+  dropdownBudgets: { label: string; value: string }[] = [];
+  otherBudget: Budget | null = null;
+
 
   transactions: Transaction[] = [];
   monthlyExpenses: MonthlyExpense[] = [];
@@ -30,14 +36,20 @@ export class TransactionsPageComponent implements OnInit {
   showEditExpenseModal: boolean = false;
   showMonthlyExpensesModal: boolean = false;
 
-  tempTransaction: Transaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+  tempTransaction: Transaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense", budgetName: '' };
   formattedDate = this.formatDate(this.tempTransaction.date)
-  constructor(private transactionService: UserTransactionsService, private expensesService: UserExpensesService) { }
+  constructor(
+    private transactionService: UserTransactionsService,
+    private expensesService: UserExpensesService,
+    private budgetService: UserBudgetsService
+  ) { }
   ngOnInit() {
     this.transactions = [];
     this.expenseCategories = this.transactionService.getExpenseCategories();
     this.getTransactions();
     this.getAllMonthlyExpenses();
+    this.loadAllBudgets();
+
   }
   ngOnDestroy() {
     if (this.transactionSubscription) {
@@ -47,6 +59,26 @@ export class TransactionsPageComponent implements OnInit {
       this.expensesSubscription.unsubscribe();
     }
   }
+  loadAllBudgets() {
+    this.budgetService.getAllBudgets().subscribe({
+      next: (budgets) => {
+        this.budgets = budgets; // Keep the original budgets
+        this.dropdownBudgets = budgets.filter(budget => budget.name !== 'Other')
+          .map(budget => ({
+            label: budget.name,
+            value: budget.id ? budget.id : '' // Ensure value is not undefined
+          }));
+        this.otherBudget = budgets.find(budget => budget.name === 'Other') || null;
+        console.log('Budgets loaded:', this.budgets);
+        console.log('Dropdown Budgets:', this.dropdownBudgets);
+        console.log('Other Budget:', this.otherBudget);
+      },
+      error: (err) => {
+        console.error('Failed to load budgets:', err);
+      }
+    });
+  }
+
 
   getTransactions() {
     this.transactionSubscription = this.transactionService.getAllTransactions()
