@@ -20,6 +20,5 @@ export class IncomeReportComponent {
   }
   getTotalIncome() {
     return this.monthlyIncomes.reduce((sum, income) => sum + income.amount, 0);
-    console.log('Total Income: ', this.getTotalIncome());
   }
 }

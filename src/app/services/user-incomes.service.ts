@@ -8,6 +8,8 @@ import {
   Observable, from,
   map, switchMap, take 
 } from 'rxjs';
+import { UserTransactionsService } from './user-transactions.service';
+import { defaultTransaction } from '../models/transaction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,8 @@ export class UserIncomesService {
 
   constructor(
     private auth: AuthService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private transactionsService: UserTransactionsService
   ) { }
 
   addMonthlyIncome(monthlyIncome: MonthlyIncome): Observable<String> {
@@ -31,6 +34,15 @@ export class UserIncomesService {
         
         const userId = user.uid;
         const incomes = this.afs.collection(`users/${userId}/monthly_incomes`);
+
+        this.transactionsService.addTransaction({
+          ...defaultTransaction,
+          transactionType: "Income",
+          amount: monthlyIncome.amount,
+          name: 'Monthly Income from ' + monthlyIncome.title,
+          category: monthlyIncome.incomeCategory
+        }).subscribe()
+
         return from(incomes.add(monthlyIncome)).pipe(
           map((docRef) => {
             return docRef.id;

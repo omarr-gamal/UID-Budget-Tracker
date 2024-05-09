@@ -13,6 +13,7 @@ import { IncomesPageComponent } from './pages/incomes-page/incomes-page.componen
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'dashboard', component: HomeComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   {
@@ -20,9 +21,9 @@ const routes: Routes = [
     component: TransactionsPageComponent,
     canActivate: [authGuard],
   },
-  { path: 'budgets', component: BudgetsPageComponent },
-  { path: 'reports', component: ReportsPageComponent },
-  { path: 'incomes', component: IncomesPageComponent },
+  { path: 'budgets', component: BudgetsPageComponent, canActivate: [authGuard], },
+  { path: 'reports', component: ReportsPageComponent, canActivate: [authGuard], },
+  { path: 'incomes', component: IncomesPageComponent, canActivate: [authGuard], },
   { path: '**', redirectTo: '' },
 ];
 
