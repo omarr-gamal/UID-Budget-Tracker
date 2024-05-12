@@ -35,7 +35,7 @@ export class DashboardMonthlyChartComponent implements OnInit {
         {
           label: 'Balance Over Time',
           data: data.map(d => d.balance),
-          fill: false,
+          fill: true,
           borderColor: '#42A5F5',
           tension: 0.4
         }
