@@ -180,9 +180,17 @@
         ></p-dropdown>
       </div>
       <div class="form-row">
-        <label class="form-label" for="budgetCategory">Budget:</label>
-        <p-dropdown class="form-input" [options]="budgets" [(ngModel)]="tempTransaction.budgetName" [showClear]="true"
-          placeholder="Select a Category" name="budgetCategory" optionLabel="name" optionValue="id">
+        <label class="form-label" for="expenseBudget">Budget:</label>
+        <p-dropdown
+          class="form-input"
+          [options]="expenseBudgets"
+          [(ngModel)]="tempTransaction.budgetName"
+          [showClear]="true"
+          placeholder="Select a Budget"
+          name="expenseBudget"
+          optionLabel="name"
+          optionValue="id"
+        >
         </p-dropdown>
       </div>
 
@@ -266,6 +274,20 @@
           name="expenseCategory"
           optionLabel="name"
         ></p-dropdown>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="expenseBudget">Budget:</label>
+        <p-dropdown
+          class="form-input"
+          [options]="expenseBudgets"
+          [(ngModel)]="tempTransaction.budgetName"
+          [showClear]="true"
+          placeholder="Select a Budget"
+          name="expenseBudget"
+          optionLabel="name"
+          optionValue="id"
+        >
+        </p-dropdown>
       </div>
       <div class="form-row">
         <label class="form-label" for="expenseAmount">Amount:</label>

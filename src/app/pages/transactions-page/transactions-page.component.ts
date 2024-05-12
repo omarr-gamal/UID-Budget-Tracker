@@ -18,7 +18,7 @@ export class TransactionsPageComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
   expenseCategories: any[] = [];
 
-  budgets: Budget[] = [];
+  expenseBudgets: Budget[] = [];
   dropdownBudgets: { label: string; value: string }[] = [];
   otherBudget: Budget | null = null;
 
@@ -62,14 +62,14 @@ export class TransactionsPageComponent implements OnInit {
   loadAllBudgets() {
     this.budgetService.getAllBudgets().subscribe({
       next: (budgets) => {
-        this.budgets = budgets; // Keep the original budgets
+        this.expenseBudgets = budgets; // Keep the original budgets
         this.dropdownBudgets = budgets.filter(budget => budget.name !== 'Other')
           .map(budget => ({
             label: budget.name,
             value: budget.id ? budget.id : '' // Ensure value is not undefined
           }));
         this.otherBudget = budgets.find(budget => budget.name === 'Other') || null;
-        console.log('Budgets loaded:', this.budgets);
+        console.log('Budgets loaded:', this.expenseBudgets);
         console.log('Dropdown Budgets:', this.dropdownBudgets);
         console.log('Other Budget:', this.otherBudget);
       },
@@ -113,7 +113,7 @@ export class TransactionsPageComponent implements OnInit {
       this.transactionService.addTransaction(this.tempTransaction).subscribe(
         () => {
           this.showAddExpenseModal = false;
-          this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+          this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense", budgetName: '' };
           this.getTransactions();
         },
         (error) => {
@@ -128,7 +128,7 @@ export class TransactionsPageComponent implements OnInit {
         this.expensesService.addMonthlyExpense(this.tempExpense).subscribe(
           () => {
             this.showAddExpenseModal = false;
-            this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense" };
+            this.tempTransaction = { id: '', name: '', date: new Date(), category: '', amount: 0, isRecurring: false, description: '', transactionType: "Expense", budgetName: '' };
             this.getTransactions();
             this.getAllMonthlyExpenses();
           },
