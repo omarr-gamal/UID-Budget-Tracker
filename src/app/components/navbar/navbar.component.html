@@ -7,9 +7,17 @@
       </div>
     </a>
   </ng-template>
+
   <ng-template pTemplate="end">
     <div *ngIf="!user">
       <p-button label="Login" (onClick)="redirectToLoginPage()"></p-button>
+    </div>
+    <div *ngIf="user">
+      <p-menubar [model]="logOutItem" (click) = "activeMenu($event)">
+        <ng-template pTemplate="start">
+
+        </ng-template>
+      </p-menubar>
     </div>
   </ng-template>
 </p-menubar>

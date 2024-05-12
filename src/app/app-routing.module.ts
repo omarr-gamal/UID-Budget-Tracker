@@ -12,7 +12,7 @@ import { IncomesPageComponent } from './pages/incomes-page/incomes-page.componen
 import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: HomeComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },

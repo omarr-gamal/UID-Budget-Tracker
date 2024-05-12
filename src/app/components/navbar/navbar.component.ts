@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  logOutItem: MenuItem[] = [];
   items: MenuItem[] = [];
   user: any;
 
@@ -64,16 +65,19 @@ export class NavbarComponent {
     ];
 
     if (this.user) {
-      this.items.push({
+      this.logOutItem = [{
         label: this.user.displayName,
         items: [
           {
             label: 'Logout',
             icon: 'pi pi-sign-out',
-            command: () => this.auth.signOut(),
+            command: () => {
+              this.auth.signOut();
+              this.redirectToLoginPage();
+            },
           },
         ],
-      });
+      }];
     }
   }
 
