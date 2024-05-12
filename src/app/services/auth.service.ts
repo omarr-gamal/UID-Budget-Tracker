@@ -38,16 +38,17 @@ export class AuthService {
       var user;
       if (newUser) {
         user = {
-          ...defaultUser,
           uid: result.user.uid,
           displayName: result.user.displayName,
           email: result.user.email,
+          photoURL: result.user.photoURL,
         }
       } else {
         user = {
+          ...defaultUser,
           uid: result.user.uid,
-          displayName: result.user.displayName,
           email: result.user.email,
+          displayName: result.user.displayName,
         }
       }
       return this.updateUserData(user as User);

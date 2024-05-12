@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  logOutItem: MenuItem[] = [];
+  logOutItems: MenuItem[] = [];
   items: MenuItem[] = [];
   user: any;
 
@@ -65,7 +65,7 @@ export class NavbarComponent {
     ];
 
     if (this.user) {
-      this.logOutItem = [{
+      this.logOutItems = [{
         label: this.user.displayName,
         items: [
           {

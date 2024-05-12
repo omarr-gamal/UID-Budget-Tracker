@@ -43,6 +43,8 @@ import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 import { BudgetsPageComponent } from './pages/budgets-page/budgets-page.component';
 import { ReportsPageComponent } from './pages/reports-page/reports-page.component';
@@ -152,6 +154,8 @@ import { SavingGoalsPageComponent } from './saving-goals-page/saving-goals-page.
     DxBulletModule,
     DxTemplateModule,
     PanelModule,
+    AvatarModule,
+    AvatarGroupModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
