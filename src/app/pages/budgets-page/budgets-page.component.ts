@@ -10,12 +10,10 @@ import { UserBudgetsService } from '../../services/user-budgets.service';
 export class BudgetsPageComponent implements OnInit{
   constructor(private budgetService: UserBudgetsService) {}
   budgets: Budget[] = [];
-  otherBudget: Budget |null= null;
-  newBudget ={name:"", description:"", amount:0};
-  paginatedBudgets: Budget[] = [];
+  otherBudget: Budget | null = null;
+  newBudget = {name:"", description:"", amount:0};
+  
   totalRecords: number = 0;
-  //rows: number = 5;
-  //first: number = 0;
   visible: boolean = false;
 
    
@@ -33,7 +31,7 @@ export class BudgetsPageComponent implements OnInit{
         this.budgets = budgets.filter(budget => budget.name !== 'Other');
         this.otherBudget = budgets.find(budget => budget.name === 'Other') || null;
         this.totalRecords = budgets.length;
-        this.updatePaginatedBudgets(0,5);
+        
         console.log('Budgets loaded:', budgets);
         console.log('Other Budget:', this.otherBudget);
       },
@@ -41,14 +39,6 @@ export class BudgetsPageComponent implements OnInit{
         console.error('Failed to load budgets:', err);
       }
     });
-  }
-
-  onPageChange(event: any) {
-    this.updatePaginatedBudgets(event.first, event.rows);
-  }
-
-  updatePaginatedBudgets(startIndex: number, pageSize: number) {
-    this.paginatedBudgets = this.budgets.slice(startIndex, startIndex + pageSize);
   }
 
   calculateProgress(budget: Budget): number {
