@@ -60,7 +60,7 @@ export class UserTransactionsService {
       const t = {
         ...transaction,
         date: (transaction.date as any).toDate(),
-        name: 'a7a',
+        name: 'test',
       };
       return t;
     });
