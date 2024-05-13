@@ -3,7 +3,7 @@
         <p-button (click)="showDialog()" label="+ New" />
         <p-dialog header="New Budget" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem'}" >
                 <input type="number" pInputText [(ngModel)]="newBudget.amount" placeholder="amount" />
-                <p-slider [(ngModel)]="newBudget.amount" [min]="1" [max]="10000" />
+                <p-slider [(ngModel)]="newBudget.amount" [min]="1" [max]="10000" step="100" />
                 <input type="text" pInputText [(ngModel)]="newBudget.name" placeholder="Name" />
                 <input type="text" pInputText [(ngModel)]="newBudget.description" placeholder="description" />
                 <p *ngIf="!isFormValid()" class="error-message">Please enter a name and amount above 0.</p>
